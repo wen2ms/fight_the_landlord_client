@@ -17,13 +17,12 @@ class Login : public QDialog {
 
     bool verfify_data(QLineEdit* edit);
     
-  private slots:
-    void on_login_btn_clicked();
+    void on_login();
     
-    void on_reg_btn_clicked();
+    void on_register();
     
-    void on_confirm_btn_clicked();
-    
+    void on_ip_confirm();
+        
   private:
     Ui::Login* ui;
 };

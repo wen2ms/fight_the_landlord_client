@@ -1,11 +1,12 @@
 #ifndef ROBOTPLAYAHAND_H
 #define ROBOTPLAYAHAND_H
 
-#include <QThread>
+#include <QObject>
+#include <QRunnable>
 
 #include "robot.h"
 
-class RobotPlayAHand : public QThread {
+class RobotPlayAHand : public QObject, public QRunnable {
     Q_OBJECT
   public:
     explicit RobotPlayAHand(Robot* robot, QObject *parent = nullptr);

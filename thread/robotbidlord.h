@@ -1,11 +1,12 @@
 #ifndef ROBOTBIDLORD_H
 #define ROBOTBIDLORD_H
 
-#include <QThread>
+#include <QObject>
+#include <QRunnable>
 
 #include "robot.h"
 
-class RobotBidLord : public QThread {
+class RobotBidLord : public QObject, public QRunnable{
     Q_OBJECT
   public:
     explicit RobotBidLord(Robot* robot, QObject *parent = nullptr);

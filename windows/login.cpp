@@ -2,9 +2,11 @@
 
 #include <QRegularExpression>
 #include <QRegularExpressionValidator>
+#include <QThreadPool>
 
-#include "ui_login.h"
 #include "datamanager.h"
+#include "mainwindow.h"
+#include "ui_login.h"
 
 Login::Login(QWidget* parent) : QDialog(parent), ui(new Ui::Login) {
     ui->setupUi(this);
@@ -44,10 +46,11 @@ Login::Login(QWidget* parent) : QDialog(parent), ui(new Ui::Login) {
 
     ui->port->setValidator(validator_port);
     
-    connect(ui->login_btn, &QPushButton::clicked, this, &Login::on_login_btn_clicked);
-    connect(ui->reg_btn, &QPushButton::clicked, this, &Login::on_reg_btn_clicked);
-    connect(ui->confirm_btn, &QPushButton::clicked, this, &Login::on_confirm_btn_clicked);
+    connect(ui->login_btn, &QPushButton::clicked, this, &Login::on_login);
+    connect(ui->reg_btn, &QPushButton::clicked, this, &Login::on_register);
+    connect(ui->confirm_btn, &QPushButton::clicked, this, &Login::on_ip_confirm);
     
+    QThreadPool::globalInstance()->setMaxThreadCount(8);
 }
 
 Login::~Login() {
@@ -66,16 +69,18 @@ bool Login::verfify_data(QLineEdit* edit) {
     }
 }
 
-void Login::on_login_btn_clicked() {
+void Login::on_login() {    
     bool valid_name = verfify_data(ui->username);
     bool valid_pwd = verfify_data(ui->password);
     
     if (valid_name && valid_pwd) {
+        MainWindow* main_window = new MainWindow;
         
+        main_window->show();
     }
 }
 
-void Login::on_reg_btn_clicked() {
+void Login::on_register() {
     bool valid_reg_name = verfify_data(ui->reg_username);
     bool valid_reg_pwd = verfify_data(ui->reg_password);
     bool valid_reg_phone = verfify_data(ui->phone);
@@ -86,7 +91,7 @@ void Login::on_reg_btn_clicked() {
     }
 }
 
-void Login::on_confirm_btn_clicked() {
+void Login::on_ip_confirm() {
     bool valid_host = verfify_data(ui->host_addr);
     bool valid_port = verfify_data(ui->port);
     
