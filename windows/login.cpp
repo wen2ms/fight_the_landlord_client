@@ -4,6 +4,7 @@
 #include <QRegularExpressionValidator>
 
 #include "ui_login.h"
+#include "datamanager.h"
 
 Login::Login(QWidget* parent) : QDialog(parent), ui(new Ui::Login) {
     ui->setupUi(this);
@@ -90,6 +91,9 @@ void Login::on_confirm_btn_clicked() {
     bool valid_port = verfify_data(ui->port);
     
     if (valid_host && valid_port) {
+        DataManager* manager = DataManager::get_instance();
         
+        manager->set_ip(ui->host_addr->text().toUtf8());
+        manager->set_port(ui->port->text().toUtf8());        
     }
 }
