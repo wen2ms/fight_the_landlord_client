@@ -21,20 +21,20 @@ TcpSocket::~TcpSocket() {
 
 bool TcpSocket::connect_to_host(QByteArray ip, unsigned short port) {
     assert(port > 0 && port <= 65535);
-    
+
     socket_ = socket(AF_INET, SOCK_STREAM, 0);
-    
+
     assert(socket_ > 0);
-    
+
     struct sockaddr_in addr;
-    
+
     addr.sin_family = AF_INET;
     addr.sin_port = htons(port);
-    
+
     inet_pton(AF_INET, ip.data(), &addr.sin_addr.s_addr);
-    
+
     int ret = ::connect(socket_, reinterpret_cast<struct sockaddr*>(&addr), sizeof(addr));
-    
+
     return ret == 0;
 }
 
@@ -47,9 +47,65 @@ void TcpSocket::disconnect() {
 #ifdef Q_OS_WIN
         closesocket(socket_);
 #endif
-        
+
 #ifdef Q_OS_UNIX
         close(socket_);
 #endif
     }
+}
+
+bool TcpSocket::read_timeout(int timeout) {
+    if (timeout == -1) {
+        return true;
+    }
+
+#ifdef Q_OS_WIN
+    int nfds = 0;
+#endif
+
+#ifdef Q_OS_UNIX
+    int nfds = socket_ + 1;
+#endif
+
+    fd_set rdset;
+
+    FD_ZERO(&rdset);
+    FD_SET(socket_, &rdset);
+
+    struct timeval elapse;
+
+    elapse.tv_sec = timeout;
+    elapse.tv_usec = 0;
+
+    int ret = select(nfds, &rdset, NULL, NULL, &elapse);
+
+    return ret > 0;
+}
+
+bool TcpSocket::write_timeout(int timeout) {
+    if (timeout == -1) {
+        return true;
+    }
+
+#ifdef Q_OS_WIN
+    int nfds = 0;
+#endif
+
+#ifdef Q_OS_UNIX
+    int nfds = socket_ + 1;
+#endif
+
+    fd_set wrset;
+
+    FD_ZERO(&wrset);
+    FD_SET(socket_, &wrset);
+
+    struct timeval elapse;
+
+    elapse.tv_sec = timeout;
+    elapse.tv_usec = 0;
+
+    int ret = select(nfds, NULL, &wrset, NULL, &elapse);
+
+    return ret > 0;
 }

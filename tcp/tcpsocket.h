@@ -29,6 +29,9 @@ class TcpSocket : public QObject {
     void disconnect();
 
   private:
+    bool read_timeout(int timeout);
+    bool write_timeout(int timeout);    
+
 #ifdef Q_OS_WIN
     SOCKET socket_;
 #endif
