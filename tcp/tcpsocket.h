@@ -7,7 +7,11 @@
 #include <winsock2.h>
 #endif
 
-class TcpSocket {
+#ifdef Q_OS_UNIX
+#include <arpa/inet.h>
+#endif
+
+class TcpSocket : public QObject {
     Q_OBJECT
 
   public:
@@ -16,7 +20,7 @@ class TcpSocket {
 
     ~TcpSocket();
 
-    bool connnect_to_host(QByteArray ip, unsigned short port);
+    bool connect_to_host(QByteArray ip, unsigned short port);
 
     QByteArray recv_msg(int timeout = -1);
 
