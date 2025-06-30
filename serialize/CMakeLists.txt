@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 
 project(serialize)
 
-find_package(Protobuf)
+find_package(Protobuf REQUIRED)
 
 include_directories(${Protobuf_INCLUDE_DIR})
 
@@ -12,4 +12,4 @@ file(GLOB HEADERS ./*.h)
 
 add_library(serialize ${SRC} ${HEADERS})
 
-target_link_libraries(serialize PRIVATE Qt${QT_VERSION_MAJOR}::Core)
+target_link_libraries(serialize PRIVATE Qt${QT_VERSION_MAJOR}::Core protobuf)
