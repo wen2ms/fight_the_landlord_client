@@ -30,7 +30,10 @@ class TcpSocket : public QObject {
 
   private:
     bool read_timeout(int timeout);
-    bool write_timeout(int timeout);    
+    bool write_timeout(int timeout);
+    
+    int readn(char* buf, int count);
+    int writen(const char* buf, int count);    
 
 #ifdef Q_OS_WIN
     SOCKET socket_;

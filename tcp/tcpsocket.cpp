@@ -109,3 +109,49 @@ bool TcpSocket::write_timeout(int timeout) {
 
     return ret > 0;
 }
+
+int TcpSocket::readn(char *buf, int count) {
+    char* pt = buf;
+    int last = count;
+    int len = 0;
+    
+    while (last > 0) {
+        len = recv(socket_, pt, last, 0);
+        
+        if (len == -1) {
+            perror("recv");
+            
+            return -1;
+        } else if (len == 0) {
+            break;
+        }
+        
+        pt += len;
+        last -= len;
+    }
+    
+    return count - last;
+}
+
+int TcpSocket::writen(const char *buf, int count) {
+    const char* pt = buf;
+    int last = count;
+    int len = 0;
+    
+    while (last > 0) {
+        len = send(socket_, pt, last, 0);
+        
+        if (len == -1) {
+            perror("send");
+            
+            return -1;
+        } else if (len == 0) {
+            continue;
+        }
+        
+        pt += len;
+        last -= len;
+    }
+    
+    return count - last;
+}
