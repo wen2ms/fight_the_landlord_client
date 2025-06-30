@@ -24,6 +24,7 @@ include_directories(
   ${PROJECT_SOURCE_DIR}/thread
   ${PROJECT_SOURCE_DIR}/player
   ${PROJECT_SOURCE_DIR}/tcp
+  ${PROJECT_SOURCE_DIR}/serialize
 )
 
 add_subdirectory(card)
@@ -33,6 +34,7 @@ add_subdirectory(windows)
 add_subdirectory(thread)
 add_subdirectory(player)
 add_subdirectory(tcp)
+add_subdirectory(serialize)
 
 
 set(MACOSX_BUNDLE_ICON_FILE logo.icns)
