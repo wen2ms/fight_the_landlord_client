@@ -23,6 +23,7 @@ include_directories(
   ${PROJECT_SOURCE_DIR}/windows
   ${PROJECT_SOURCE_DIR}/thread
   ${PROJECT_SOURCE_DIR}/player
+  ${PROJECT_SOURCE_DIR}/tcp
 )
 
 add_subdirectory(card)
@@ -31,6 +32,7 @@ add_subdirectory(strategy)
 add_subdirectory(windows)
 add_subdirectory(thread)
 add_subdirectory(player)
+add_subdirectory(tcp)
 
 
 set(MACOSX_BUNDLE_ICON_FILE logo.icns)
