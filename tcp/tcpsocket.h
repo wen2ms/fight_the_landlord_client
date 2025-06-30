@@ -24,7 +24,7 @@ class TcpSocket : public QObject {
 
     QByteArray recv_msg(int timeout = -1);
 
-    void send_msg(QByteArray msg, int timeout = -1);
+    bool send_msg(QByteArray msg, int timeout = -1);
 
     void disconnect();
 

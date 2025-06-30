@@ -38,9 +38,58 @@ bool TcpSocket::connect_to_host(QByteArray ip, unsigned short port) {
     return ret == 0;
 }
 
-QByteArray TcpSocket::recv_msg(int timeout) {}
+QByteArray TcpSocket::recv_msg(int timeout) {
+    bool flag = read_timeout(timeout);
+    QByteArray arr;
+    
+    if (flag) {
+        int head_len = 0;
+        int ret = readn(reinterpret_cast<char*>(&head_len), sizeof(int));
+        
+        if (ret == 0) {
+            return QByteArray();
+        }
+        
+        head_len = ntohl(head_len);
+        
+        char* data = new char[head_len];
+        
+        assert(data);
+        
+        ret = readn(data, head_len);
+        
+        if (ret == head_len) {
+            arr = QByteArray(data, head_len);
+        }
+        
+        delete[] data;
+    }
+    
+    return arr;
+}
 
-void TcpSocket::send_msg(QByteArray msg, int timeout) {}
+bool TcpSocket::send_msg(QByteArray msg, int timeout) {
+    bool flag = write_timeout(timeout);
+    
+    if (flag) {
+        int head_len = htonl(msg.size());
+        int length = sizeof(int) + msg.size();
+        char* data = new char[length];
+        
+        assert(data);
+        
+        memcpy(data, &head_len, sizeof(int));
+        memcpy(data + sizeof(int), msg.data(), msg.size());
+        
+        int ret = writen(data, length);
+        
+        flag = (ret == length ? true : false);
+        
+        delete[] data;
+    }
+    
+    return flag;
+}
 
 void TcpSocket::disconnect() {
     if (socket_ > 0) {
