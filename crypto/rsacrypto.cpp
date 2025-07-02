@@ -107,3 +107,77 @@ QByteArray RsaCrypto::pri_key_decrypt(QByteArray data) {
     
     return str;
 }
+
+QByteArray RsaCrypto::sign(QByteArray data, QCryptographicHash::Algorithm hash) {
+    QCryptographicHash hash_val(hash);
+    
+    hash_val.addData(data);
+    
+    QByteArray md = hash_val.result();
+    
+    EVP_PKEY_CTX* ctx = EVP_PKEY_CTX_new(pri_key_, NULL);
+    
+    assert(ctx != NULL);
+    
+    int ret = EVP_PKEY_sign_init(ctx);
+    
+    assert(ret == 1);
+    
+    ret = EVP_PKEY_CTX_set_rsa_padding(ctx, RSA_PKCS1_OAEP_PADDING);
+    
+    assert(ret == 1);
+    
+    ret = EVP_PKEY_CTX_set_signature_md(ctx, hash_methods_.value(hash)());
+    
+    assert(ret == 1);
+    
+    size_t outlen = 0;
+    
+    ret = EVP_PKEY_sign(ctx, NULL, &outlen, reinterpret_cast<const unsigned char*>(md.data()), md.size());
+    
+    assert(ret == 1);
+    
+    unsigned char* out = new unsigned char[outlen];
+    
+    ret = EVP_PKEY_sign(ctx, out, &outlen, reinterpret_cast<const unsigned char*>(md.data()), md.size());
+    
+    assert(ret == 1);
+    
+    QByteArray str(reinterpret_cast<char*>(out), outlen);
+    
+    delete[] out;
+    EVP_PKEY_CTX_free(ctx);
+    
+    return str;
+}
+
+bool RsaCrypto::verify(QByteArray sign, QByteArray data, QCryptographicHash::Algorithm hash) {
+    QCryptographicHash hash_val(hash);
+
+    hash_val.addData(data);
+
+    QByteArray md = hash_val.result();
+
+    EVP_PKEY_CTX* ctx = EVP_PKEY_CTX_new(pub_key_, NULL);
+
+    assert(ctx != NULL);
+
+    int ret = EVP_PKEY_verify_init(ctx);
+
+    assert(ret == 1);
+
+    ret = EVP_PKEY_CTX_set_rsa_padding(ctx, RSA_PKCS1_OAEP_PADDING);
+
+    assert(ret == 1);
+
+    ret = EVP_PKEY_CTX_set_signature_md(ctx, hash_methods_.value(hash)());
+
+    assert(ret == 1);
+
+    ret = EVP_PKEY_verify(ctx, reinterpret_cast<const unsigned char*>(sign.data()), sign.size(),
+                          reinterpret_cast<const unsigned char*>(md.data()), md.size());
+
+    EVP_PKEY_CTX_free(ctx);
+
+    return ret == 1;
+}

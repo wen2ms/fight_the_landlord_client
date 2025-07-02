@@ -5,6 +5,7 @@
 
 #include <QCryptographicHash>
 #include <QObject>
+#include <QMap>
 
 class RsaCrypto : public QObject {
     Q_OBJECT
@@ -20,6 +21,8 @@ class RsaCrypto : public QObject {
         kPublicKey,
         kPrivateKey
     };
+    
+    using hash_func = const EVP_MD* (*)(void);
 
     explicit RsaCrypto(QObject *parent = nullptr);
     
@@ -40,6 +43,19 @@ class RsaCrypto : public QObject {
   signals:
     
   private:
+    const QMap<QCryptographicHash::Algorithm, hash_func> hash_methods_ = {
+        {QCryptographicHash::Md5, EVP_md5}, 
+        {QCryptographicHash::Sha1, EVP_sha1},
+        {QCryptographicHash::Sha224, EVP_sha224},
+        {QCryptographicHash::Sha256, EVP_sha256},
+        {QCryptographicHash::Sha384, EVP_sha384},
+        {QCryptographicHash::Sha512, EVP_sha512},
+        {QCryptographicHash::Sha3_224, EVP_sha3_224},
+        {QCryptographicHash::Sha3_256, EVP_sha3_256},
+        {QCryptographicHash::Sha3_384, EVP_sha3_384},
+        {QCryptographicHash::Sha3_512, EVP_sha3_512},
+    };
+
     EVP_PKEY* pub_key_;
     EVP_PKEY* pri_key_;
 };
