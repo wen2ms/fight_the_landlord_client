@@ -1,6 +1,5 @@
 #include "rsacrypto.h"
 
-#include <openssl/evp.h>
 #include <openssl/rsa.h>
 #include <openssl/pem.h>
 
@@ -41,4 +40,70 @@ void RsaCrypto::generate_rsa_key(KeyLength bits, QByteArray pub, QByteArray pri)
     
     BIO_flush(bio);
     BIO_free(bio);
+}
+
+QByteArray RsaCrypto::pub_key_encrypt(QByteArray data) {
+    EVP_PKEY_CTX* ctx = EVP_PKEY_CTX_new(pub_key_, NULL);
+    
+    assert(ctx != NULL);
+    
+    int ret = EVP_PKEY_encrypt_init(ctx);
+    
+    assert(ret == 1);
+    
+    ret = EVP_PKEY_CTX_set_rsa_padding(ctx, RSA_PKCS1_OAEP_PADDING);
+    
+    assert(ret == 1);
+    
+    size_t outlen = 0;
+    
+    ret = EVP_PKEY_encrypt(ctx, NULL, &outlen, reinterpret_cast<const unsigned char*>(data.data()), data.size());
+    
+    assert(ret == 1);
+    
+    unsigned char* out = new unsigned char[outlen];
+    
+    ret = EVP_PKEY_encrypt(ctx, out, &outlen, reinterpret_cast<const unsigned char*>(data.data()), data.size());
+    
+    assert(ret == 1);
+    
+    QByteArray str(reinterpret_cast<char*>(out), outlen);
+    
+    delete[] out;
+    EVP_PKEY_CTX_free(ctx);
+    
+    return str;
+}
+
+QByteArray RsaCrypto::pri_key_decrypt(QByteArray data) {
+    EVP_PKEY_CTX* ctx = EVP_PKEY_CTX_new(pri_key_, NULL);
+    
+    assert(ctx != NULL);
+    
+    int ret = EVP_PKEY_decrypt_init(ctx);
+    
+    assert(ret == 1);
+    
+    ret = EVP_PKEY_CTX_set_rsa_padding(ctx, RSA_PKCS1_OAEP_PADDING);
+    
+    assert(ret == 1);
+    
+    size_t outlen = 0;
+    
+    ret = EVP_PKEY_decrypt(ctx, NULL, &outlen, reinterpret_cast<const unsigned char*>(data.data()), data.size());
+    
+    assert(ret == 1);
+    
+    unsigned char* out = new unsigned char[outlen];
+    
+    ret = EVP_PKEY_decrypt(ctx, out, &outlen, reinterpret_cast<const unsigned char*>(data.data()), data.size());
+    
+    assert(ret == 1);
+    
+    QByteArray str(reinterpret_cast<char*>(out), outlen);
+    
+    delete[] out;
+    EVP_PKEY_CTX_free(ctx);
+    
+    return str;
 }

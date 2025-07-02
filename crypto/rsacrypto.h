@@ -1,8 +1,10 @@
 #ifndef RSACRYPTO_H
 #define RSACRYPTO_H
 
-#include <QObject>
+#include <openssl/evp.h>
+
 #include <QCryptographicHash>
+#include <QObject>
 
 class RsaCrypto : public QObject {
     Q_OBJECT
@@ -36,6 +38,10 @@ class RsaCrypto : public QObject {
     bool verify(QByteArray sign, QByteArray data, QCryptographicHash::Algorithm hash = QCryptographicHash::Sha256);
     
   signals:
+    
+  private:
+    EVP_PKEY* pub_key_;
+    EVP_PKEY* pri_key_;
 };
 
 #endif  // RSACRYPTO_H
