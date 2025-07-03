@@ -26,7 +26,9 @@ class RsaCrypto : public QObject {
 
     explicit RsaCrypto(QObject *parent = nullptr);
     
-    explicit RsaCrypto(QByteArray filename, QObject *parent = nullptr);
+    explicit RsaCrypto(QByteArray filename, KeyType type, QObject *parent = nullptr);
+    
+    ~RsaCrypto();
     
     void prase_string_to_key(QByteArray data, KeyType type);
     

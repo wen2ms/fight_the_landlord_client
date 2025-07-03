@@ -5,6 +5,44 @@
 
 RsaCrypto::RsaCrypto(QObject *parent) : QObject{parent} {}
 
+RsaCrypto::RsaCrypto(QByteArray filename, KeyType type, QObject* parent) {
+    BIO* bio = BIO_new_file(filename.data(), "rb");
+    
+    assert(bio != NULL);
+    
+    if (type == kPublicKey) {
+        PEM_read_bio_PUBKEY(bio, &pub_key_, NULL, NULL);
+    } else {
+        PEM_read_bio_PrivateKey(bio, &pri_key_, NULL, NULL);
+    }
+    
+    BIO_free(bio);
+}
+
+RsaCrypto::~RsaCrypto() {
+    if (pub_key_) {
+        EVP_PKEY_free(pub_key_);
+    }
+    
+    if (pri_key_) {
+        EVP_PKEY_free(pri_key_);
+    }
+}
+
+void RsaCrypto::prase_string_to_key(QByteArray data, KeyType type) {
+    BIO* bio = BIO_new_mem_buf(data.data(), data.size());
+    
+    assert(bio != NULL);
+    
+    if (type == kPublicKey) {
+        PEM_read_bio_PUBKEY(bio, &pub_key_, NULL, NULL);
+    } else {
+        PEM_read_bio_PrivateKey(bio, &pri_key_, NULL, NULL);
+    }
+    
+    BIO_free(bio);
+}
+
 void RsaCrypto::generate_rsa_key(KeyLength bits, QByteArray pub, QByteArray pri) {
     EVP_PKEY_CTX* ctx = EVP_PKEY_CTX_new_id(EVP_PKEY_RSA, NULL);
     
@@ -16,9 +54,7 @@ void RsaCrypto::generate_rsa_key(KeyLength bits, QByteArray pub, QByteArray pri)
     
     assert(ret == 1);
     
-    EVP_PKEY* key;
-    
-    ret = EVP_PKEY_generate(ctx, &key);
+    ret = EVP_PKEY_generate(ctx, &pri_key_);
     
     assert(ret == 1);
     
@@ -26,7 +62,7 @@ void RsaCrypto::generate_rsa_key(KeyLength bits, QByteArray pub, QByteArray pri)
     
     BIO* bio = BIO_new_file(pub, "wb");
     
-    ret = PEM_write_bio_PUBKEY(bio, key);
+    ret = PEM_write_bio_PUBKEY(bio, pri_key_);
     
     assert(ret == 1);
     
@@ -34,7 +70,7 @@ void RsaCrypto::generate_rsa_key(KeyLength bits, QByteArray pub, QByteArray pri)
     BIO_free(bio);
     
     bio = BIO_new_file(pri, "wb");
-    ret = PEM_write_bio_PrivateKey(bio, key, NULL, NULL, 0, NULL, NULL);
+    ret = PEM_write_bio_PrivateKey(bio, pri_key_, NULL, NULL, 0, NULL, NULL);
     
     assert(ret == 1);
     
