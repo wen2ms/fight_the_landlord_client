@@ -4,6 +4,7 @@
 #include "cards.h"
 #include "login.h"
 #include "aescrypto.h"
+#include "rsacrypto.h"
 
 void test() {
     AesCrypto aes(AesCrypto::kAesCbc128, "1234567887654321");
@@ -15,6 +16,27 @@ void test() {
     text = aes.decrypt(text);
     
     qDebug() << text;
+    
+    RsaCrypto rsa;
+    
+    rsa.generate_rsa_key(RsaCrypto::kBits2k);
+    
+    RsaCrypto rsa_pub("public.pem", RsaCrypto::kPublicKey);
+    QByteArray temp = "Even though assert will terminate the program in debug mode.....";
+    
+    temp = rsa_pub.pub_key_encrypt(temp);
+    
+    RsaCrypto rsa_pri("private.pem", RsaCrypto::kPrivateKey);
+    
+    temp = rsa_pri.pri_key_decrypt(temp);
+    
+    qDebug() << "Decrypt =" << temp.data();
+    
+    temp = rsa_pri.sign(text);
+    
+    bool flag = rsa_pub.verify(temp, text);
+    
+    qDebug() << "flag =" << flag;    
 }
 
 

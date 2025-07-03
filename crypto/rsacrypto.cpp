@@ -3,9 +3,9 @@
 #include <openssl/rsa.h>
 #include <openssl/pem.h>
 
-RsaCrypto::RsaCrypto(QObject *parent) : QObject{parent} {}
+RsaCrypto::RsaCrypto(QObject *parent) : QObject{parent} , pub_key_(NULL), pri_key_(NULL) {}
 
-RsaCrypto::RsaCrypto(QByteArray filename, KeyType type, QObject* parent) {
+RsaCrypto::RsaCrypto(QByteArray filename, KeyType type, QObject* parent) : RsaCrypto() {
     BIO* bio = BIO_new_file(filename.data(), "rb");
     
     assert(bio != NULL);
@@ -159,7 +159,7 @@ QByteArray RsaCrypto::sign(QByteArray data, QCryptographicHash::Algorithm hash) 
     
     assert(ret == 1);
     
-    ret = EVP_PKEY_CTX_set_rsa_padding(ctx, RSA_PKCS1_OAEP_PADDING);
+    ret = EVP_PKEY_CTX_set_rsa_padding(ctx, RSA_PKCS1_PADDING);
     
     assert(ret == 1);
     
@@ -202,7 +202,7 @@ bool RsaCrypto::verify(QByteArray sign, QByteArray data, QCryptographicHash::Alg
 
     assert(ret == 1);
 
-    ret = EVP_PKEY_CTX_set_rsa_padding(ctx, RSA_PKCS1_OAEP_PADDING);
+    ret = EVP_PKEY_CTX_set_rsa_padding(ctx, RSA_PKCS1_PADDING);
 
     assert(ret == 1);
 
