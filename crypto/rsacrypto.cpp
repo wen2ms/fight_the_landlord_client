@@ -1,5 +1,7 @@
 #include "rsacrypto.h"
 
+#include "base64.h"
+
 #include <openssl/rsa.h>
 #include <openssl/pem.h>
 
@@ -103,7 +105,8 @@ QByteArray RsaCrypto::pub_key_encrypt(QByteArray data) {
     
     assert(ret == 1);
     
-    QByteArray str(reinterpret_cast<char*>(out), outlen);
+    Base64 base64;
+    QByteArray str = base64.encode(reinterpret_cast<char*>(out), outlen);
     
     delete[] out;
     EVP_PKEY_CTX_free(ctx);
@@ -123,6 +126,10 @@ QByteArray RsaCrypto::pri_key_decrypt(QByteArray data) {
     ret = EVP_PKEY_CTX_set_rsa_padding(ctx, RSA_PKCS1_OAEP_PADDING);
     
     assert(ret == 1);
+    
+    Base64 base64;
+    
+    data = base64.decode(data);
     
     size_t outlen = 0;
     
@@ -179,7 +186,8 @@ QByteArray RsaCrypto::sign(QByteArray data, QCryptographicHash::Algorithm hash) 
     
     assert(ret == 1);
     
-    QByteArray str(reinterpret_cast<char*>(out), outlen);
+    Base64 base64;
+    QByteArray str = base64.encode(reinterpret_cast<char*>(out), outlen);
     
     delete[] out;
     EVP_PKEY_CTX_free(ctx);
@@ -188,6 +196,10 @@ QByteArray RsaCrypto::sign(QByteArray data, QCryptographicHash::Algorithm hash) 
 }
 
 bool RsaCrypto::verify(QByteArray sign, QByteArray data, QCryptographicHash::Algorithm hash) {
+    Base64 base64;
+    
+    sign = base64.decode(sign);
+    
     QCryptographicHash hash_val(hash);
 
     hash_val.addData(data);

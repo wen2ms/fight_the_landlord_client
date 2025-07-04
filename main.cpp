@@ -26,6 +26,8 @@ void test() {
     
     temp = rsa_pub.pub_key_encrypt(temp);
     
+    qDebug() << "Encrypt =" << temp.data();
+    
     RsaCrypto rsa_pri("private.pem", RsaCrypto::kPrivateKey);
     
     temp = rsa_pri.pri_key_decrypt(temp);
@@ -33,6 +35,8 @@ void test() {
     qDebug() << "Decrypt =" << temp.data();
     
     temp = rsa_pri.sign(text);
+    
+    qDebug() << "Signed =" << temp.data();
     
     bool flag = rsa_pub.verify(temp, text);
     
