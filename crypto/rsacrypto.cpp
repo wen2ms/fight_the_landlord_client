@@ -62,7 +62,7 @@ void RsaCrypto::generate_rsa_key(KeyLength bits, QByteArray pub, QByteArray pri)
     
     EVP_PKEY_CTX_free(ctx);
     
-    BIO* bio = BIO_new_file(pub, "wb");
+    BIO* bio = BIO_new_file(pub.data(), "wb");
     
     ret = PEM_write_bio_PUBKEY(bio, pri_key_);
     
@@ -71,7 +71,7 @@ void RsaCrypto::generate_rsa_key(KeyLength bits, QByteArray pub, QByteArray pri)
     BIO_flush(bio);
     BIO_free(bio);
     
-    bio = BIO_new_file(pri, "wb");
+    bio = BIO_new_file(pri.data(), "wb");
     ret = PEM_write_bio_PrivateKey(bio, pri_key_, NULL, NULL, 0, NULL, NULL);
     
     assert(ret == 1);
@@ -99,7 +99,7 @@ QByteArray RsaCrypto::pub_key_encrypt(QByteArray data) {
     
     assert(ret == 1);
     
-    unsigned char* out = new unsigned char[outlen];
+    auto out = new unsigned char[outlen];
     
     ret = EVP_PKEY_encrypt(ctx, out, &outlen, reinterpret_cast<const unsigned char*>(data.data()), data.size());
     
@@ -137,7 +137,7 @@ QByteArray RsaCrypto::pri_key_decrypt(QByteArray data) {
     
     assert(ret == 1);
     
-    unsigned char* out = new unsigned char[outlen];
+    auto out = new unsigned char[outlen];
     
     ret = EVP_PKEY_decrypt(ctx, out, &outlen, reinterpret_cast<const unsigned char*>(data.data()), data.size());
     
@@ -173,21 +173,21 @@ QByteArray RsaCrypto::sign(QByteArray data, QCryptographicHash::Algorithm hash) 
     ret = EVP_PKEY_CTX_set_signature_md(ctx, hash_methods_.value(hash)());
     
     assert(ret == 1);
+
+    size_t out_len = 0;
     
-    size_t outlen = 0;
-    
-    ret = EVP_PKEY_sign(ctx, NULL, &outlen, reinterpret_cast<const unsigned char*>(md.data()), md.size());
+    ret = EVP_PKEY_sign(ctx, NULL, &out_len, reinterpret_cast<const unsigned char*>(md.data()), md.size());
     
     assert(ret == 1);
     
-    unsigned char* out = new unsigned char[outlen];
+    auto out = new unsigned char[out_len];
     
-    ret = EVP_PKEY_sign(ctx, out, &outlen, reinterpret_cast<const unsigned char*>(md.data()), md.size());
+    ret = EVP_PKEY_sign(ctx, out, &out_len, reinterpret_cast<const unsigned char*>(md.data()), md.size());
     
     assert(ret == 1);
     
     Base64 base64;
-    QByteArray str = base64.encode(reinterpret_cast<char*>(out), outlen);
+    QByteArray str = base64.encode(reinterpret_cast<char*>(out), out_len);
     
     delete[] out;
     EVP_PKEY_CTX_free(ctx);

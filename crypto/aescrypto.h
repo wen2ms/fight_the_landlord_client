@@ -35,10 +35,11 @@ class AesCrypto : public QObject {
         kEncrypto
     };
     
-    using algorithm_func = const EVP_CIPHER* (*)(void);
+    using algorithm_func = const EVP_CIPHER* (*)();
 
     AesCrypto(Algorithm algorithm, QByteArray key, QObject* parent = nullptr);
-    ~AesCrypto();
+    
+    ~AesCrypto() = default;
     
     QByteArray encrypt(QByteArray text);
     QByteArray decrypt(QByteArray text);

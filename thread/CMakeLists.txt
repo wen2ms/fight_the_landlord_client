@@ -4,6 +4,7 @@ project(thread)
 
 aux_source_directory(./ SRC)
 
-add_library(thread ${SRC})
+add_library(thread ${SRC}
+    communication.h communication.cpp)
 
 target_link_libraries(thread PRIVATE Qt${QT_VERSION_MAJOR}::Core)

@@ -17,9 +17,9 @@ struct Message {
 
 class Codec {
   public:
-    Codec(Message* msg);
+    explicit Codec(Message* msg);
     
-    Codec(QByteArray msg);
+    explicit Codec(QByteArray msg);
     
     QByteArray encode_msg();
     

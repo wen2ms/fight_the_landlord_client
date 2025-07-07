@@ -22,7 +22,7 @@ class RsaCrypto : public QObject {
         kPrivateKey
     };
     
-    using hash_func = const EVP_MD* (*)(void);
+    using hash_func = const EVP_MD* (*)();
 
     explicit RsaCrypto(QObject *parent = nullptr);
     

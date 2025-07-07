@@ -34,8 +34,6 @@ AesCrypto::AesCrypto(Algorithm algorithm, QByteArray key, QObject *parent) {
     key_ = key;
 }
 
-AesCrypto::~AesCrypto() {}
-
 QByteArray AesCrypto::encrypt(QByteArray text) {
     return aes_crypto(text, kEncrypto);
 }
@@ -62,7 +60,7 @@ QByteArray AesCrypto::aes_crypto(QByteArray text, CryptoType type) {
         length = (length / AES_BLOCK_SIZE + 1) * AES_BLOCK_SIZE;
     }
     
-    unsigned char* out = new unsigned char[length];
+    auto out = new unsigned char[length];
     int out_len = 0;
     int total_len = 0;
     
