@@ -1,14 +1,17 @@
 #include "login.h"
 
+#include <QCryptographicHash>
 #include <QRegularExpression>
 #include <QRegularExpressionValidator>
 #include <QThreadPool>
+#include <QMessageBox>
 
 #include "datamanager.h"
+#include "communication.h"
 #include "mainwindow.h"
 #include "ui_login.h"
 
-Login::Login(QWidget* parent) : QDialog(parent), ui(new Ui::Login) {
+Login::Login(QWidget* parent) : QDialog(parent), ui(new Ui::Login), is_connected_(false) {
     ui->setupUi(this);
 
     ui->stackedWidget->setCurrentIndex(0);
@@ -36,12 +39,12 @@ Login::Login(QWidget* parent) : QDialog(parent), ui(new Ui::Login) {
 
     ui->phone->setValidator(validator_phone);
 
-    expreg.setPattern("^((25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(25[0-5]|2[0-4]\\d|[01]?\\d\\d?)$");
+    expreg.setPattern(R"(^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$)");
     QRegularExpressionValidator* validator_ip = new QRegularExpressionValidator(expreg, this);
 
     ui->host_addr->setValidator(validator_ip);
 
-    expreg.setPattern("^(6553[0-5]|655[0-2]\\d|65[0-4]\\d{2}|6[0-4]\\d{3}|[1-9]\\d{0,3}|0)$");
+    expreg.setPattern(R"(^(6553[0-5]|655[0-2]\d|65[0-4]\d{2}|6[0-4]\d{3}|[1-9]\d{0,3}|0)$)");
     QRegularExpressionValidator* validator_port = new QRegularExpressionValidator(expreg, this);
 
     ui->port->setValidator(validator_port);
@@ -69,14 +72,41 @@ bool Login::verfify_data(QLineEdit* edit) {
     }
 }
 
+void Login::start_connect(Message* msg) {
+    if (!is_connected_) {
+        Communication* task = new Communication;
+        
+        connect(task, &Communication::connect_failed, this, [=]() {
+            QMessageBox::critical(this, "Server connection", "connect failed");
+            
+            is_connected_ = false;
+        });
+        
+        is_connected_ = true;
+        
+        QThreadPool::globalInstance()->start(task);
+    } else {
+        
+    }
+}
+
 void Login::on_login() {    
     bool valid_name = verfify_data(ui->username);
     bool valid_pwd = verfify_data(ui->password);
     
     if (valid_name && valid_pwd) {
-        MainWindow* main_window = new MainWindow;
+        Message msg;
         
-        main_window->show();
+        msg.user_name = ui->username->text().toUtf8();
+        msg.reqcode = RequestCode::USER_LOGIN;
+        
+        QByteArray password = ui->password->text().toUtf8();
+        
+        password = QCryptographicHash::hash(password, QCryptographicHash::Sha224);
+        
+        msg.data1 = password;
+        
+        start_connect(&msg);
     }
 }
 
@@ -87,7 +117,19 @@ void Login::on_register() {
     
     
     if (valid_reg_name && valid_reg_pwd && valid_reg_phone) {
+        Message msg;
         
+        msg.user_name = ui->reg_username->text().toUtf8();
+        msg.reqcode = RequestCode::REGISTER;
+
+        QByteArray password = ui->reg_password->text().toUtf8();
+
+        password = QCryptographicHash::hash(password, QCryptographicHash::Sha224);
+        
+        msg.data1 = password;
+        msg.data2 = ui->phone->text().toUtf8();
+        
+        start_connect(&msg);
     }
 }
 

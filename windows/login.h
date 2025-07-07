@@ -4,6 +4,8 @@
 #include <QDialog>
 #include <QLineEdit>
 
+#include "codec.h"
+
 namespace Ui {
 class Login;
 }
@@ -17,6 +19,8 @@ class Login : public QDialog {
 
     bool verfify_data(QLineEdit* edit);
     
+    void start_connect(Message* msg);
+    
     void on_login();
     
     void on_register();
@@ -25,6 +29,8 @@ class Login : public QDialog {
         
   private:
     Ui::Login* ui;
+    
+    bool is_connected_;
 };
 
 #endif  // LOGIN_H

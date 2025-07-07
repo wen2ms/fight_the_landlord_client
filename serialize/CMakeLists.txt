@@ -2,10 +2,6 @@ cmake_minimum_required(VERSION 3.16)
 
 project(serialize)
 
-find_package(Protobuf REQUIRED)
-
-include_directories(${Protobuf_INCLUDE_DIR})
-
 aux_source_directory(./ SRC)
 
 file(GLOB HEADERS ./*.h)

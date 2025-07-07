@@ -5,7 +5,9 @@
 
 #include "datamanager.h"
 
-Communication::Communication(QObject* parent) : QObject{parent}, socket_(nullptr) {}
+Communication::Communication(QObject* parent) : QObject{parent}, socket_(nullptr), is_stop_(false) {
+    setAutoDelete(true);
+}
 
 void Communication::run() {
     socket_ = new TcpSocket;

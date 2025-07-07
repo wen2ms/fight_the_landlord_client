@@ -12,6 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Multimedia)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Multimedia)
 find_package(OpenSSL REQUIRED)
+find_package(Protobuf REQUIRED)
 
 set(PROJECT_SOURCES
         main.cpp
@@ -28,6 +29,7 @@ include_directories(
   ${PROJECT_SOURCE_DIR}/serialize
   ${PROJECT_SOURCE_DIR}/crypto
   ${OPENSSL_INCLUDE_DIR}
+  ${Protobuf_INCLUDE_DIR}
 )
 
 add_subdirectory(card)
@@ -73,7 +75,7 @@ else()
 endif()
 
 target_link_libraries(fight_the_landlord_client PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Multimedia
-  card control strategy windows thread player crypto
+  card control strategy windows thread player crypto tcp
 )
 target_include_directories(fight_the_landlord_client PRIVATE ${PROJECT_SOURCE_DIR})
 
