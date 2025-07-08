@@ -18,6 +18,10 @@ void DataManager::set_port(QByteArray port) {
     port_ = port;
 }
 
+void DataManager::set_communication(Communication *comm) {
+    comm_ = comm;
+}
+
 QByteArray DataManager::user_name() {
     return user_name_;
 }
@@ -28,4 +32,8 @@ QByteArray DataManager::ip() {
 
 QByteArray DataManager::port() {
     return port_;
+}
+
+Communication *DataManager::communication() {
+    return comm_;
 }

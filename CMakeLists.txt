@@ -75,7 +75,7 @@ else()
 endif()
 
 target_link_libraries(fight_the_landlord_client PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Multimedia
-  card control strategy windows thread player crypto tcp
+  card control strategy windows thread player crypto tcp serialize
 )
 target_include_directories(fight_the_landlord_client PRIVATE ${PROJECT_SOURCE_DIR})
 

@@ -74,7 +74,7 @@ bool Login::verfify_data(QLineEdit* edit) {
 
 void Login::start_connect(Message* msg) {
     if (!is_connected_) {
-        Communication* task = new Communication;
+        Communication* task = new Communication(msg);
         
         connect(task, &Communication::connect_failed, this, [=]() {
             QMessageBox::critical(this, "Server connection", "connect failed");
@@ -86,7 +86,7 @@ void Login::start_connect(Message* msg) {
         
         QThreadPool::globalInstance()->start(task);
     } else {
-        
+        DataManager::get_instance()->communication()->send_message(msg);
     }
 }
 

@@ -5,8 +5,30 @@
 
 #include "datamanager.h"
 
-Communication::Communication(QObject* parent) : QObject{parent}, socket_(nullptr), is_stop_(false) {
+Communication::Communication(Message* msg, QObject* parent)
+    : QObject{parent}, socket_(nullptr), is_stop_(false), msg_info_(msg) {
     setAutoDelete(true);
+}
+
+void Communication::stop_loop() {
+    is_stop_ = true;
+}
+
+void Communication::send_message(Message* msg) {
+    Codec codec(msg);
+    QByteArray data = codec.encode_msg();
+    
+    socket_->send_msg(data);
+}
+
+void Communication::parse_recv_message() {
+    QByteArray data = socket_->recv_msg(2);
+    Codec codec(data);
+    QSharedPointer<Message> ptr = codec.decode_msg();
+    
+    if (ptr->reqcode) {
+        
+    }
 }
 
 void Communication::run() {
@@ -27,7 +49,7 @@ void Communication::run() {
     }
     
     while (!is_stop_) {
-    
+        parse_recv_message();
     }
     
     socket_->disconnect();
