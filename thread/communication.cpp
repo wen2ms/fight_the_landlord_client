@@ -23,8 +23,17 @@ void Communication::send_message(Message* msg) {
 
 void Communication::parse_recv_message() {
     QByteArray data = socket_->recv_msg(2);
+    
+    qDebug() << "Recv message:" << data;
+    
+    if (data.isEmpty()) {
+        return;
+    }
+    
     Codec codec(data);
     QSharedPointer<Message> ptr = codec.decode_msg();
+    
+    qDebug() << ptr->rescode << "," << ptr->data1 << "," << ptr->data2;
     
     if (ptr->reqcode) {
         

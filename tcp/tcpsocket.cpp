@@ -2,6 +2,8 @@
 
 #include <unistd.h>
 
+#include <QDebug>
+
 TcpSocket::TcpSocket(QObject *parent) {
 #ifdef Q_OS_WIN
     WSADATA data;
@@ -51,6 +53,8 @@ QByteArray TcpSocket::recv_msg(int timeout) {
         }
         
         head_len = ntohl(head_len);
+        
+        qDebug() << "Recv head len:" << head_len;
         
         char* data = new char[head_len];
         

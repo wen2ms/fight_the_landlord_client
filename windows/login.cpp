@@ -54,6 +54,9 @@ Login::Login(QWidget* parent) : QDialog(parent), ui(new Ui::Login), is_connected
     connect(ui->confirm_btn, &QPushButton::clicked, this, &Login::on_ip_confirm);
     
     QThreadPool::globalInstance()->setMaxThreadCount(8);
+    
+    ui->username->setText("FooBar");
+    ui->password->setText("Aa*1");
 }
 
 Login::~Login() {
