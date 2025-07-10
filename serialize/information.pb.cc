@@ -97,15 +97,16 @@ const char descriptor_table_protodef_information_2eproto[] ABSL_ATTRIBUTE_SECTIO
     "ser_name\030\001 \001(\t\022\r\n\005data1\030\002 \001(\t\022\r\n\005data2\030\003"
     " \001(\t\022\r\n\005data3\030\004 \001(\t\022\035\n\007reqcode\030\005 \001(\0162\014.R"
     "equestCode\022\036\n\007rescode\030\006 \001(\0162\r.ResponseCo"
-    "de*+\n\013RequestCode\022\016\n\nUSER_LOGIN\020\000\022\014\n\010REG"
-    "ISTER\020\001*-\n\014ResponseCode\022\014\n\010LOGIN_OK\020\000\022\017\n"
-    "\013REGISTER_OK\020\001b\006proto3"
+    "de*A\n\013RequestCode\022\016\n\nUSER_LOGIN\020\000\022\014\n\010REG"
+    "ISTER\020\001\022\024\n\020AES_DISTRIBUTION\020\002*C\n\014Respons"
+    "eCode\022\014\n\010LOGIN_OK\020\000\022\017\n\013REGISTER_OK\020\001\022\024\n\020"
+    "RSA_DISTRIBUTION\020\002b\006proto3"
 };
 static ::absl::once_flag descriptor_table_information_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_information_2eproto = {
     false,
     false,
-    262,
+    306,
     descriptor_table_protodef_information_2eproto,
     "information.proto",
     &descriptor_table_information_2eproto_once,
@@ -123,18 +124,18 @@ const ::google::protobuf::EnumDescriptor* RequestCode_descriptor() {
   return file_level_enum_descriptors_information_2eproto[0];
 }
 PROTOBUF_CONSTINIT const uint32_t RequestCode_internal_data_[] = {
-    131072u, 0u, };
+    196608u, 0u, };
 bool RequestCode_IsValid(int value) {
-  return 0 <= value && value <= 1;
+  return 0 <= value && value <= 2;
 }
 const ::google::protobuf::EnumDescriptor* ResponseCode_descriptor() {
   ::google::protobuf::internal::AssignDescriptors(&descriptor_table_information_2eproto);
   return file_level_enum_descriptors_information_2eproto[1];
 }
 PROTOBUF_CONSTINIT const uint32_t ResponseCode_internal_data_[] = {
-    131072u, 0u, };
+    196608u, 0u, };
 bool ResponseCode_IsValid(int value) {
-  return 0 <= value && value <= 1;
+  return 0 <= value && value <= 2;
 }
 // ===================================================================
 

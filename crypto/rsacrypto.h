@@ -30,7 +30,7 @@ class RsaCrypto : public QObject {
     
     ~RsaCrypto();
     
-    void prase_string_to_key(QByteArray data, KeyType type);
+    void parse_string_to_key(QByteArray data, KeyType type);
     
     void generate_rsa_key(KeyLength bits, QByteArray pub = "public.pem", QByteArray pri = "private.pem");
     

@@ -11,6 +11,12 @@ class Communication : public QObject, public QRunnable {
     Q_OBJECT
 
   public:
+    enum KeyLen {
+        kLen16 = 16,
+        kLen24 = 24,
+        kLen32 = 32
+    };
+    
     explicit Communication(Message* msg, QObject *parent = nullptr);
     
     void stop_loop();
@@ -18,6 +24,10 @@ class Communication : public QObject, public QRunnable {
     void send_message(Message* msg);
     
     void parse_recv_message();
+    
+    void handle_rsa_distribution(Message* msg);
+    
+    QByteArray generate_aes_key(KeyLen len);
     
   protected:
     void run() override;

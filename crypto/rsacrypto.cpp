@@ -31,7 +31,7 @@ RsaCrypto::~RsaCrypto() {
     }
 }
 
-void RsaCrypto::prase_string_to_key(QByteArray data, KeyType type) {
+void RsaCrypto::parse_string_to_key(QByteArray data, KeyType type) {
     BIO* bio = BIO_new_mem_buf(data.data(), data.size());
     
     assert(bio != NULL);

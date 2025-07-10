@@ -1,9 +1,12 @@
 #include "communication.h"
 
+#include <QCryptographicHash>
+#include <QDateTime>
 #include <QDebug>
 #include <QThread>
 
 #include "datamanager.h"
+#include "rsacrypto.h"
 
 Communication::Communication(Message* msg, QObject* parent)
     : QObject{parent}, socket_(nullptr), is_stop_(false), msg_info_(msg) {
@@ -35,9 +38,47 @@ void Communication::parse_recv_message() {
     
     qDebug() << ptr->rescode << "," << ptr->data1 << "," << ptr->data2;
     
-    if (ptr->reqcode) {
-        
+    switch (ptr->rescode) {
+        case ResponseCode::LOGIN_OK:
+            break;
+        case ResponseCode::REGISTER_OK:
+            break;
+        case ResponseCode::RSA_DISTRIBUTION:
+            handle_rsa_distribution(ptr.get());
+            break;
+        default:
+            break;
     }
+}
+
+void Communication::handle_rsa_distribution(Message* msg) {
+    RsaCrypto rsa;
+    
+    rsa.parse_string_to_key(msg->data1, RsaCrypto::kPublicKey);
+    
+    bool is_valid = rsa.verify(msg->data2, msg->data1);
+    
+    assert(is_valid);
+    
+    QByteArray aes_key = generate_aes_key(KeyLen::kLen32);
+    Message res_msg;
+    
+    res_msg.reqcode = RequestCode::AES_DISTRIBUTION;
+    res_msg.data1 = rsa.pub_key_encrypt(aes_key);
+    res_msg.data2 = QCryptographicHash::hash(aes_key, QCryptographicHash::Sha224).toHex();
+    
+    send_message(&res_msg);
+}
+
+QByteArray Communication::generate_aes_key(KeyLen len) {
+    QByteArray time = QDateTime::currentDateTime().toString("yyyy.MM.dd-hh:mm:ss.zzz").toUtf8();
+    QCryptographicHash hash(QCryptographicHash::Sha3_384);
+    
+    hash.addData(time);
+    
+    time = hash.result().left(len);
+    
+    return time;
 }
 
 void Communication::run() {
