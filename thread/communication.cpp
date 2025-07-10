@@ -46,6 +46,9 @@ void Communication::parse_recv_message() {
         case ResponseCode::RSA_DISTRIBUTION:
             handle_rsa_distribution(ptr.get());
             break;
+        case ResponseCode::AES_VERIFY_OK:
+            qDebug() << "Aes key distribution successfully!";
+            break;
         default:
             break;
     }
