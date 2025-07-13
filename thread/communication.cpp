@@ -9,7 +9,7 @@
 #include "rsacrypto.h"
 
 Communication::Communication(Message* msg, QObject* parent)
-    : QObject{parent}, socket_(nullptr), is_stop_(false), msg_info_(msg) {
+    : QObject{parent}, socket_(nullptr), is_stop_(false), msg_info_(msg), aes_crypto_(nullptr) {
     setAutoDelete(true);
 }
 
@@ -17,9 +17,13 @@ void Communication::stop_loop() {
     is_stop_ = true;
 }
 
-void Communication::send_message(Message* msg) {
+void Communication::send_message(Message* msg, bool is_encrypt) {
     Codec codec(msg);
     QByteArray data = codec.encode_msg();
+    
+    if (is_encrypt) {
+        data = aes_crypto_->encrypt(data);
+    }
     
     socket_->send_msg(data);
 }
@@ -47,6 +51,9 @@ void Communication::parse_recv_message() {
             handle_rsa_distribution(ptr.get());
             break;
         case ResponseCode::AES_VERIFY_OK:
+            aes_crypto_ = new AesCrypto(AesCrypto::kAesCbc256, aes_key_, this);
+            
+            send_message(msg_info_);
             qDebug() << "Aes key distribution successfully!";
             break;
         default:
@@ -63,14 +70,15 @@ void Communication::handle_rsa_distribution(Message* msg) {
     
     assert(is_valid);
     
-    QByteArray aes_key = generate_aes_key(KeyLen::kLen32);
+    aes_key_ = generate_aes_key(KeyLen::kLen32);
+    
     Message res_msg;
     
     res_msg.reqcode = RequestCode::AES_DISTRIBUTION;
-    res_msg.data1 = rsa.pub_key_encrypt(aes_key);
-    res_msg.data2 = QCryptographicHash::hash(aes_key, QCryptographicHash::Sha224).toHex();
+    res_msg.data1 = rsa.pub_key_encrypt(aes_key_);
+    res_msg.data2 = QCryptographicHash::hash(aes_key_, QCryptographicHash::Sha224).toHex();
     
-    send_message(&res_msg);
+    send_message(&res_msg, false);
 }
 
 QByteArray Communication::generate_aes_key(KeyLen len) {

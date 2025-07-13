@@ -6,6 +6,7 @@
 
 #include "tcpsocket.h"
 #include "codec.h"
+#include "aescrypto.h"
 
 class Communication : public QObject, public QRunnable {
     Q_OBJECT
@@ -21,7 +22,7 @@ class Communication : public QObject, public QRunnable {
     
     void stop_loop();
     
-    void send_message(Message* msg);
+    void send_message(Message* msg, bool is_encrypt = true);
     
     void parse_recv_message();
     
@@ -40,6 +41,9 @@ class Communication : public QObject, public QRunnable {
     Message* msg_info_;
     
     bool is_stop_;
+    
+    QByteArray aes_key_;
+    AesCrypto* aes_crypto_;
 };
 
 #endif  // COMMUNICATION_H
