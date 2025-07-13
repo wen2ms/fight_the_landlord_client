@@ -100,6 +100,8 @@ enum ResponseCode : int {
   RSA_DISTRIBUTION = 2,
   AES_VERIFY_OK = 3,
   AES_VERIFY_FAILED = 4,
+  REGISTER_FAILED = 5,
+  LOGIN_FAILED = 6,
   ResponseCode_INT_MIN_SENTINEL_DO_NOT_USE_ =
       std::numeric_limits<::int32_t>::min(),
   ResponseCode_INT_MAX_SENTINEL_DO_NOT_USE_ =
@@ -109,8 +111,8 @@ enum ResponseCode : int {
 bool ResponseCode_IsValid(int value);
 extern const uint32_t ResponseCode_internal_data_[];
 constexpr ResponseCode ResponseCode_MIN = static_cast<ResponseCode>(0);
-constexpr ResponseCode ResponseCode_MAX = static_cast<ResponseCode>(4);
-constexpr int ResponseCode_ARRAYSIZE = 4 + 1;
+constexpr ResponseCode ResponseCode_MAX = static_cast<ResponseCode>(6);
+constexpr int ResponseCode_ARRAYSIZE = 6 + 1;
 const ::google::protobuf::EnumDescriptor*
 ResponseCode_descriptor();
 template <typename T>
@@ -123,7 +125,7 @@ const std::string& ResponseCode_Name(T value) {
 template <>
 inline const std::string& ResponseCode_Name(ResponseCode value) {
   return ::google::protobuf::internal::NameOfDenseEnum<ResponseCode_descriptor,
-                                                 0, 4>(
+                                                 0, 6>(
       static_cast<int>(value));
 }
 inline bool ResponseCode_Parse(absl::string_view name, ResponseCode* value) {

@@ -18,7 +18,9 @@ class Communication : public QObject, public QRunnable {
         kLen32 = 32
     };
     
-    explicit Communication(Message* msg, QObject *parent = nullptr);
+    explicit Communication(Message& msg, QObject *parent = nullptr);
+    
+    ~Communication();
     
     void stop_loop();
     
@@ -36,9 +38,15 @@ class Communication : public QObject, public QRunnable {
   signals:
     void connect_failed();
     
+    void login_ok();
+    void register_ok();
+    
+    void failed_msg(QByteArray msg);
+    
+    
   private:
     TcpSocket* socket_;
-    Message* msg_info_;
+    Message msg_info_;
     
     bool is_stop_;
     

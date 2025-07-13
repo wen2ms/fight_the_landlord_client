@@ -57,6 +57,10 @@ Login::Login(QWidget* parent) : QDialog(parent), ui(new Ui::Login), is_connected
     
     ui->username->setText("FooBar");
     ui->password->setText("Aa*1");
+    
+    ui->reg_username->setText("FooBar");
+    ui->reg_password->setText("Aa*1");
+    ui->phone->setText("13832123211");
 }
 
 Login::~Login() {
@@ -77,7 +81,7 @@ bool Login::verfify_data(QLineEdit* edit) {
 
 void Login::start_connect(Message* msg) {
     if (!is_connected_) {
-        Communication* task = new Communication(msg);
+        Communication* task = new Communication(*msg);
         
         connect(task, &Communication::connect_failed, this, [=]() {
             QMessageBox::critical(this, "Server connection", "connect failed");
@@ -85,7 +89,21 @@ void Login::start_connect(Message* msg) {
             is_connected_ = false;
         });
         
+        connect(task, &Communication::login_ok, this, [=]() {
+            DataManager::get_instance()->set_user_name(ui->username->text().toUtf8());
+        });
+        
+        connect(task, &Communication::register_ok, this, [=]() {
+            ui->stackedWidget->setCurrentIndex(0);
+        });
+        
+        connect(task, &Communication::failed_msg, this, [=](QByteArray msg) {
+            QMessageBox::warning(this, "Error", msg);
+        });
+        
         is_connected_ = true;
+        
+        DataManager::get_instance()->set_communication(task);
         
         QThreadPool::globalInstance()->start(task);
     } else {
@@ -105,7 +123,7 @@ void Login::on_login() {
         
         QByteArray password = ui->password->text().toUtf8();
         
-        password = QCryptographicHash::hash(password, QCryptographicHash::Sha224);
+        password = QCryptographicHash::hash(password, QCryptographicHash::Sha224).toHex();
         
         msg.data1 = password;
         
@@ -126,8 +144,8 @@ void Login::on_register() {
         msg.reqcode = RequestCode::REGISTER;
 
         QByteArray password = ui->reg_password->text().toUtf8();
-
-        password = QCryptographicHash::hash(password, QCryptographicHash::Sha224);
+        
+        password = QCryptographicHash::hash(password, QCryptographicHash::Sha224).toHex();
         
         msg.data1 = password;
         msg.data2 = ui->phone->text().toUtf8();

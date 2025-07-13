@@ -8,9 +8,17 @@
 #include "datamanager.h"
 #include "rsacrypto.h"
 
-Communication::Communication(Message* msg, QObject* parent)
+Communication::Communication(Message& msg, QObject* parent)
     : QObject{parent}, socket_(nullptr), is_stop_(false), msg_info_(msg), aes_crypto_(nullptr) {
     setAutoDelete(true);
+}
+
+Communication::~Communication() {
+    if (aes_crypto_ != nullptr) {
+        delete aes_crypto_;
+        
+        aes_crypto_ = nullptr;
+    }
 }
 
 void Communication::stop_loop() {
@@ -43,18 +51,27 @@ void Communication::parse_recv_message() {
     qDebug() << ptr->rescode << "," << ptr->data1 << "," << ptr->data2;
     
     switch (ptr->rescode) {
-        case ResponseCode::LOGIN_OK:
+        case LOGIN_OK:
+            emit login_ok();
+            qDebug() << "Login successfully!";            
             break;
-        case ResponseCode::REGISTER_OK:
+        case REGISTER_OK:
+            emit register_ok();
+            qDebug() << "Register successfully!";
             break;
-        case ResponseCode::RSA_DISTRIBUTION:
+        case RSA_DISTRIBUTION:
             handle_rsa_distribution(ptr.get());
             break;
-        case ResponseCode::AES_VERIFY_OK:
-            aes_crypto_ = new AesCrypto(AesCrypto::kAesCbc256, aes_key_, this);
+        case AES_VERIFY_OK:
+            aes_crypto_ = new AesCrypto(AesCrypto::kAesCbc256, aes_key_);
             
-            send_message(msg_info_);
+            send_message(&msg_info_);
             qDebug() << "Aes key distribution successfully!";
+            break;
+        case AES_VERIFY_FAILED:
+        case LOGIN_FAILED:
+        case REGISTER_FAILED:
+            emit failed_msg(ptr->data1);
             break;
         default:
             break;
@@ -74,7 +91,7 @@ void Communication::handle_rsa_distribution(Message* msg) {
     
     Message res_msg;
     
-    res_msg.reqcode = RequestCode::AES_DISTRIBUTION;
+    res_msg.reqcode = AES_DISTRIBUTION;
     res_msg.data1 = rsa.pub_key_encrypt(aes_key_);
     res_msg.data2 = QCryptographicHash::hash(aes_key_, QCryptographicHash::Sha224).toHex();
     
