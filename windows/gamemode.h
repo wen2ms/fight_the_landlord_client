@@ -13,6 +13,9 @@ class GameMode : public QDialog {
   public:
     explicit GameMode(QWidget *parent = nullptr);
     ~GameMode();
+    
+  protected:
+    void closeEvent(QCloseEvent* event) override;
 
   private:
     Ui::GameMode *ui;

@@ -26,3 +26,13 @@ GameMode::GameMode(QWidget *parent) : QDialog(parent), ui(new Ui::GameMode) {
 GameMode::~GameMode() {
     delete ui;
 }
+
+void GameMode::closeEvent(QCloseEvent *event) {
+    if (ui->stackedWidget->currentIndex() == 1) {
+        ui->stackedWidget->setCurrentIndex(0);
+        
+        event->ignore();
+    } else {
+        event->accept();
+    }
+}

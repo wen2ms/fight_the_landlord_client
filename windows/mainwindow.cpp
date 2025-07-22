@@ -428,7 +428,7 @@ QPixmap MainWindow::load_role_image(Player::Sex sex, Player::Direction direction
     if (direction == Player::Direction::kLeft) {
         pixmap = QPixmap::fromImage(image);
     } else {
-        pixmap = QPixmap::fromImage(image.mirrored(true, false));
+        pixmap = QPixmap::fromImage(image.flipped(Qt::Horizontal));
     }
     
     return pixmap;
@@ -784,4 +784,8 @@ void MainWindow::mouseMoveEvent(QMouseEvent* event) {
 
 void MainWindow::closeEvent(QCloseEvent* event) {
     emit window_close();
+    
+    event->accept();
+    
+    deleteLater();
 }
