@@ -11,7 +11,7 @@
 
 #include "datamanager.h"
 #include "communication.h"
-#include "mainwindow.h"
+#include "gamemode.h"
 #include "ui_login.h"
 
 Login::Login(QWidget* parent)
@@ -99,6 +99,12 @@ void Login::start_connect(Message* msg) {
             DataManager::get_instance()->set_user_name(ui->username->text().toUtf8());
             
             save_user_info();
+            
+            GameMode* game_mode = new GameMode;
+            
+            game_mode->show();
+            
+            accept();
         });
         
         connect(task, &Communication::register_ok, this, [=]() {

@@ -45,16 +45,20 @@ void test() {
 
 
 int main(int argc, char *argv[]) {
-    QApplication a(argc, argv);
+    QApplication app(argc, argv);
     
     qRegisterMetaType<Cards>("Cards&");
     QString rcc_path = QCoreApplication::applicationDirPath() + "/../Resources/resource.rcc";
     QResource::registerResource(rcc_path);
     
-    Login w;
-    w.show();
+    Login login_window;
+    int ret = login_window.exec();
     
-    test();
+    if (ret == QDialog::Accepted) {
+        test();
+        
+        return app.exec();     
+    }
     
-    return a.exec();
+    return 0;    
 }

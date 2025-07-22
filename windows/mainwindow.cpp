@@ -781,3 +781,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent* event) {
         }
     }
 }
+
+void MainWindow::closeEvent(QCloseEvent* event) {
+    emit window_close();
+}

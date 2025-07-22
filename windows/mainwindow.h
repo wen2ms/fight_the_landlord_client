@@ -88,6 +88,11 @@ class MainWindow : public QMainWindow {
     
     void mouseMoveEvent(QMouseEvent* event) override;
     
+    void closeEvent(QCloseEvent* event) override;
+    
+  signals:
+    void window_close();
+    
   private:
     enum CardAlignment {kHorizontal, kVertical};
     
