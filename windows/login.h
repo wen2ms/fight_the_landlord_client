@@ -26,11 +26,17 @@ class Login : public QDialog {
     void on_register();
     
     void on_ip_confirm();
+    
+    void save_user_info();
+    
+    void load_user_info();
         
   private:
     Ui::Login* ui;
     
     bool is_connected_;
+    
+    const QByteArray key_;
 };
 
 #endif  // LOGIN_H

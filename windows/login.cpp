@@ -5,13 +5,17 @@
 #include <QRegularExpressionValidator>
 #include <QThreadPool>
 #include <QMessageBox>
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <QFile>
 
 #include "datamanager.h"
 #include "communication.h"
 #include "mainwindow.h"
 #include "ui_login.h"
 
-Login::Login(QWidget* parent) : QDialog(parent), ui(new Ui::Login), is_connected_(false) {
+Login::Login(QWidget* parent)
+    : QDialog(parent), ui(new Ui::Login), is_connected_(false), key_("I have a dream that one day on the red hills of Georgia") {
     ui->setupUi(this);
 
     ui->stackedWidget->setCurrentIndex(0);
@@ -55,12 +59,14 @@ Login::Login(QWidget* parent) : QDialog(parent), ui(new Ui::Login), is_connected
     
     QThreadPool::globalInstance()->setMaxThreadCount(8);
     
-    ui->username->setText("FooBar");
-    ui->password->setText("Aa*1");
+    // ui->username->setText("FooBar");
+    // ui->password->setText("Aa*1");
     
     ui->reg_username->setText("FooBar");
     ui->reg_password->setText("Aa*1");
     ui->phone->setText("13832123211");
+    
+    load_user_info();
 }
 
 Login::~Login() {
@@ -91,6 +97,8 @@ void Login::start_connect(Message* msg) {
         
         connect(task, &Communication::login_ok, this, [=]() {
             DataManager::get_instance()->set_user_name(ui->username->text().toUtf8());
+            
+            save_user_info();
         });
         
         connect(task, &Communication::register_ok, this, [=]() {
@@ -164,4 +172,58 @@ void Login::on_ip_confirm() {
         manager->set_ip(ui->host_addr->text().toUtf8());
         manager->set_port(ui->port->text().toUtf8());        
     }
+}
+
+void Login::save_user_info() {
+    if (ui->save_password->isChecked()) {
+        QJsonObject object;
+        
+        object.insert("username", ui->username->text());
+        object.insert("password", ui->password->text());
+        
+        QJsonDocument document(object);
+        QByteArray json = document.toJson();
+        AesCrypto aes(AesCrypto::kAesCbc128, key_.left(16));
+        
+        json = aes.encrypt(json);
+        
+        QFile file("password.bin");
+        
+        file.open(QFile::WriteOnly);
+        
+        file.write(json);
+        
+        file.close();
+    } else {
+        QFile file("password.bin");
+        
+        file.remove();
+    }
+}
+
+void Login::load_user_info() {
+    QFile file("password.bin");
+    bool exists = file.open(QFile::ReadOnly);
+    
+    if (exists) {
+        ui->save_password->setChecked(true);
+        
+        QByteArray json = file.readAll();
+        AesCrypto aes(AesCrypto::kAesCbc128, key_.left(16));
+        
+        json = aes.decrypt(json);
+        
+        QJsonDocument document = QJsonDocument::fromJson(json);
+        QJsonObject object = document.object();
+        
+        QString user_name = object.value("username").toString();
+        QString password = object.value("password").toString();
+        
+        ui->username->setText(user_name);
+        ui->password->setText(password);
+    } else {
+        ui->save_password->setChecked(false);
+    }
+    
+    file.close();
 }
