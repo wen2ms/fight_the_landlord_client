@@ -64,6 +64,9 @@ enum RequestCode : int {
   USER_LOGIN = 0,
   REGISTER = 1,
   AES_DISTRIBUTION = 2,
+  AUTO_CREATE_ROOM = 3,
+  MANUAL_CREATE_ROOM = 4,
+  SEARCH_ROOM = 5,
   RequestCode_INT_MIN_SENTINEL_DO_NOT_USE_ =
       std::numeric_limits<::int32_t>::min(),
   RequestCode_INT_MAX_SENTINEL_DO_NOT_USE_ =
@@ -73,8 +76,8 @@ enum RequestCode : int {
 bool RequestCode_IsValid(int value);
 extern const uint32_t RequestCode_internal_data_[];
 constexpr RequestCode RequestCode_MIN = static_cast<RequestCode>(0);
-constexpr RequestCode RequestCode_MAX = static_cast<RequestCode>(2);
-constexpr int RequestCode_ARRAYSIZE = 2 + 1;
+constexpr RequestCode RequestCode_MAX = static_cast<RequestCode>(5);
+constexpr int RequestCode_ARRAYSIZE = 5 + 1;
 const ::google::protobuf::EnumDescriptor*
 RequestCode_descriptor();
 template <typename T>
@@ -87,7 +90,7 @@ const std::string& RequestCode_Name(T value) {
 template <>
 inline const std::string& RequestCode_Name(RequestCode value) {
   return ::google::protobuf::internal::NameOfDenseEnum<RequestCode_descriptor,
-                                                 0, 2>(
+                                                 0, 5>(
       static_cast<int>(value));
 }
 inline bool RequestCode_Parse(absl::string_view name, RequestCode* value) {
@@ -99,9 +102,10 @@ enum ResponseCode : int {
   REGISTER_OK = 1,
   RSA_DISTRIBUTION = 2,
   AES_VERIFY_OK = 3,
-  AES_VERIFY_FAILED = 4,
-  REGISTER_FAILED = 5,
-  LOGIN_FAILED = 6,
+  JOIN_GAME_OK = 4,
+  START_GAME = 5,
+  SEARCH_ROOM_OK = 6,
+  FAILED = 7,
   ResponseCode_INT_MIN_SENTINEL_DO_NOT_USE_ =
       std::numeric_limits<::int32_t>::min(),
   ResponseCode_INT_MAX_SENTINEL_DO_NOT_USE_ =
@@ -111,8 +115,8 @@ enum ResponseCode : int {
 bool ResponseCode_IsValid(int value);
 extern const uint32_t ResponseCode_internal_data_[];
 constexpr ResponseCode ResponseCode_MIN = static_cast<ResponseCode>(0);
-constexpr ResponseCode ResponseCode_MAX = static_cast<ResponseCode>(6);
-constexpr int ResponseCode_ARRAYSIZE = 6 + 1;
+constexpr ResponseCode ResponseCode_MAX = static_cast<ResponseCode>(7);
+constexpr int ResponseCode_ARRAYSIZE = 7 + 1;
 const ::google::protobuf::EnumDescriptor*
 ResponseCode_descriptor();
 template <typename T>
@@ -125,7 +129,7 @@ const std::string& ResponseCode_Name(T value) {
 template <>
 inline const std::string& ResponseCode_Name(ResponseCode value) {
   return ::google::protobuf::internal::NameOfDenseEnum<ResponseCode_descriptor,
-                                                 0, 6>(
+                                                 0, 7>(
       static_cast<int>(value));
 }
 inline bool ResponseCode_Parse(absl::string_view name, ResponseCode* value) {
@@ -285,11 +289,12 @@ class Information final : public ::google::protobuf::Message
   // accessors -------------------------------------------------------
   enum : int {
     kUserNameFieldNumber = 1,
-    kData1FieldNumber = 2,
-    kData2FieldNumber = 3,
-    kData3FieldNumber = 4,
-    kReqcodeFieldNumber = 5,
-    kRescodeFieldNumber = 6,
+    kRoomNameFieldNumber = 2,
+    kData1FieldNumber = 3,
+    kData2FieldNumber = 4,
+    kData3FieldNumber = 5,
+    kReqcodeFieldNumber = 6,
+    kRescodeFieldNumber = 7,
   };
   // string user_name = 1;
   void clear_user_name() ;
@@ -307,7 +312,23 @@ class Information final : public ::google::protobuf::Message
   std::string* _internal_mutable_user_name();
 
   public:
-  // string data1 = 2;
+  // string room_name = 2;
+  void clear_room_name() ;
+  const std::string& room_name() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_room_name(Arg_&& arg, Args_... args);
+  std::string* mutable_room_name();
+  PROTOBUF_NODISCARD std::string* release_room_name();
+  void set_allocated_room_name(std::string* value);
+
+  private:
+  const std::string& _internal_room_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_room_name(
+      const std::string& value);
+  std::string* _internal_mutable_room_name();
+
+  public:
+  // string data1 = 3;
   void clear_data1() ;
   const std::string& data1() const;
   template <typename Arg_ = const std::string&, typename... Args_>
@@ -323,7 +344,7 @@ class Information final : public ::google::protobuf::Message
   std::string* _internal_mutable_data1();
 
   public:
-  // string data2 = 3;
+  // string data2 = 4;
   void clear_data2() ;
   const std::string& data2() const;
   template <typename Arg_ = const std::string&, typename... Args_>
@@ -339,7 +360,7 @@ class Information final : public ::google::protobuf::Message
   std::string* _internal_mutable_data2();
 
   public:
-  // string data3 = 4;
+  // string data3 = 5;
   void clear_data3() ;
   const std::string& data3() const;
   template <typename Arg_ = const std::string&, typename... Args_>
@@ -355,7 +376,7 @@ class Information final : public ::google::protobuf::Message
   std::string* _internal_mutable_data3();
 
   public:
-  // .RequestCode reqcode = 5;
+  // .RequestCode reqcode = 6;
   void clear_reqcode() ;
   ::RequestCode reqcode() const;
   void set_reqcode(::RequestCode value);
@@ -365,7 +386,7 @@ class Information final : public ::google::protobuf::Message
   void _internal_set_reqcode(::RequestCode value);
 
   public:
-  // .ResponseCode rescode = 6;
+  // .ResponseCode rescode = 7;
   void clear_rescode() ;
   ::ResponseCode rescode() const;
   void set_rescode(::ResponseCode value);
@@ -380,8 +401,8 @@ class Information final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      3, 6, 0,
-      44, 2>
+      3, 7, 0,
+      53, 2>
       _table_;
 
   friend class ::google::protobuf::MessageLite;
@@ -399,6 +420,7 @@ class Information final : public ::google::protobuf::Message
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const Information& from_msg);
     ::google::protobuf::internal::ArenaStringPtr user_name_;
+    ::google::protobuf::internal::ArenaStringPtr room_name_;
     ::google::protobuf::internal::ArenaStringPtr data1_;
     ::google::protobuf::internal::ArenaStringPtr data2_;
     ::google::protobuf::internal::ArenaStringPtr data3_;
@@ -475,7 +497,55 @@ inline void Information::set_allocated_user_name(std::string* value) {
   // @@protoc_insertion_point(field_set_allocated:Information.user_name)
 }
 
-// string data1 = 2;
+// string room_name = 2;
+inline void Information::clear_room_name() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.room_name_.ClearToEmpty();
+}
+inline const std::string& Information::room_name() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:Information.room_name)
+  return _internal_room_name();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void Information::set_room_name(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.room_name_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:Information.room_name)
+}
+inline std::string* Information::mutable_room_name() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_room_name();
+  // @@protoc_insertion_point(field_mutable:Information.room_name)
+  return _s;
+}
+inline const std::string& Information::_internal_room_name() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.room_name_.Get();
+}
+inline void Information::_internal_set_room_name(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.room_name_.Set(value, GetArena());
+}
+inline std::string* Information::_internal_mutable_room_name() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.room_name_.Mutable( GetArena());
+}
+inline std::string* Information::release_room_name() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:Information.room_name)
+  return _impl_.room_name_.Release();
+}
+inline void Information::set_allocated_room_name(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.room_name_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.room_name_.IsDefault()) {
+    _impl_.room_name_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:Information.room_name)
+}
+
+// string data1 = 3;
 inline void Information::clear_data1() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.data1_.ClearToEmpty();
@@ -523,7 +593,7 @@ inline void Information::set_allocated_data1(std::string* value) {
   // @@protoc_insertion_point(field_set_allocated:Information.data1)
 }
 
-// string data2 = 3;
+// string data2 = 4;
 inline void Information::clear_data2() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.data2_.ClearToEmpty();
@@ -571,7 +641,7 @@ inline void Information::set_allocated_data2(std::string* value) {
   // @@protoc_insertion_point(field_set_allocated:Information.data2)
 }
 
-// string data3 = 4;
+// string data3 = 5;
 inline void Information::clear_data3() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.data3_.ClearToEmpty();
@@ -619,7 +689,7 @@ inline void Information::set_allocated_data3(std::string* value) {
   // @@protoc_insertion_point(field_set_allocated:Information.data3)
 }
 
-// .RequestCode reqcode = 5;
+// .RequestCode reqcode = 6;
 inline void Information::clear_reqcode() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.reqcode_ = 0;
@@ -641,7 +711,7 @@ inline void Information::_internal_set_reqcode(::RequestCode value) {
   _impl_.reqcode_ = value;
 }
 
-// .ResponseCode rescode = 6;
+// .ResponseCode rescode = 7;
 inline void Information::clear_rescode() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.rescode_ = 0;

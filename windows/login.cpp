@@ -17,7 +17,9 @@
 Login::Login(QWidget* parent)
     : QDialog(parent), ui(new Ui::Login), is_connected_(false), key_("I have a dream that one day on the red hills of Georgia") {
     ui->setupUi(this);
-
+    
+    this->setFixedSize(1080, 720);
+    
     ui->stackedWidget->setCurrentIndex(0);
 
     connect(ui->home_btn, &QPushButton::clicked, this, [=]() { ui->stackedWidget->setCurrentIndex(0); });

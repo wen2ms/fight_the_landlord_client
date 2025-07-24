@@ -24,6 +24,7 @@ QSharedPointer<Message> Codec::decode_msg() {
     Message* msg = new Message;
     
     msg->user_name = QByteArray::fromStdString(obj_.user_name());
+    msg->room_name = QByteArray::fromStdString(obj_.room_name());
     msg->data1 = QByteArray::fromStdString(obj_.data1());
     msg->data2 = QByteArray::fromStdString(obj_.data2());
     msg->data3 = QByteArray::fromStdString(obj_.data3());
@@ -41,6 +42,7 @@ void Codec::reload(QByteArray msg) {
 
 void Codec::reload(Message *msg) {
     obj_.set_user_name(msg->user_name.toStdString());
+    obj_.set_room_name(msg->room_name.toStdString());
     obj_.set_data1(msg->data1.toStdString());
     obj_.set_data2(msg->data2.toStdString());
     obj_.set_data3(msg->data3.toStdString());

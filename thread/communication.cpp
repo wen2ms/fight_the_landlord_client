@@ -68,9 +68,7 @@ void Communication::parse_recv_message() {
             send_message(&msg_info_);
             qDebug() << "Aes key distribution successfully!";
             break;
-        case AES_VERIFY_FAILED:
-        case LOGIN_FAILED:
-        case REGISTER_FAILED:
+        case FAILED:
             emit failed_msg(ptr->data1);
             break;
         default:
