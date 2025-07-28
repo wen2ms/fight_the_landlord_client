@@ -42,6 +42,7 @@ class Communication : public QObject, public QRunnable {
     void register_ok();
     
     void failed_msg(QByteArray msg);
+    void player_count(int number);
     
     
   private:

@@ -13,12 +13,14 @@ class DataManager {
     static DataManager *get_instance();
 
     void set_user_name(QByteArray name);
+    void set_room_name(QByteArray room_name);
     void set_ip(QByteArray ip);
     void set_port(QByteArray port);
     
     void set_communication(Communication* comm);
 
     QByteArray user_name();
+    QByteArray room_name();
     QByteArray ip();
     QByteArray port();
     
@@ -30,8 +32,9 @@ class DataManager {
     static DataManager *data_;
 
     QByteArray user_name_;
-    QByteArray ip_;
-    QByteArray port_;
+    QByteArray room_name_;
+    QByteArray ip_ = "<ip>";
+    QByteArray port_ = "<port>";
     
     Communication* comm_;
 };

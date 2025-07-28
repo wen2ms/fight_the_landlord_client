@@ -104,17 +104,18 @@ const char descriptor_table_protodef_information_2eproto[] ABSL_ATTRIBUTE_SECTIO
     "\030\007 \001(\0162\r.ResponseCode*\200\001\n\013RequestCode\022\016\n"
     "\nUSER_LOGIN\020\000\022\014\n\010REGISTER\020\001\022\024\n\020AES_DISTR"
     "IBUTION\020\002\022\024\n\020AUTO_CREATE_ROOM\020\003\022\026\n\022MANUA"
-    "L_CREATE_ROOM\020\004\022\017\n\013SEARCH_ROOM\020\005*\230\001\n\014Res"
+    "L_CREATE_ROOM\020\004\022\017\n\013SEARCH_ROOM\020\005*\250\001\n\014Res"
     "ponseCode\022\014\n\010LOGIN_OK\020\000\022\017\n\013REGISTER_OK\020\001"
     "\022\024\n\020RSA_DISTRIBUTION\020\002\022\021\n\rAES_VERIFY_OK\020"
-    "\003\022\020\n\014JOIN_GAME_OK\020\004\022\016\n\nSTART_GAME\020\005\022\022\n\016S"
-    "EARCH_ROOM_OK\020\006\022\n\n\006FAILED\020\007b\006proto3"
+    "\003\022\020\n\014JOIN_ROOM_OK\020\004\022\016\n\nSTART_GAME\020\005\022\022\n\016S"
+    "EARCH_ROOM_OK\020\006\022\016\n\nDEAL_CARDS\020\007\022\n\n\006FAILE"
+    "D\020\010b\006proto3"
 };
 static ::absl::once_flag descriptor_table_information_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_information_2eproto = {
     false,
     false,
-    475,
+    491,
     descriptor_table_protodef_information_2eproto,
     "information.proto",
     &descriptor_table_information_2eproto_once,
@@ -141,9 +142,9 @@ const ::google::protobuf::EnumDescriptor* ResponseCode_descriptor() {
   return file_level_enum_descriptors_information_2eproto[1];
 }
 PROTOBUF_CONSTINIT const uint32_t ResponseCode_internal_data_[] = {
-    524288u, 0u, };
+    589824u, 0u, };
 bool ResponseCode_IsValid(int value) {
-  return 0 <= value && value <= 7;
+  return 0 <= value && value <= 8;
 }
 // ===================================================================
 

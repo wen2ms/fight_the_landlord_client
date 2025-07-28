@@ -68,6 +68,12 @@ void Communication::parse_recv_message() {
             send_message(&msg_info_);
             qDebug() << "Aes key distribution successfully!";
             break;
+        case JOIN_ROOM_OK:
+            DataManager::get_instance()->set_room_name(ptr->room_name);
+            emit player_count(ptr->data1.toInt());
+            break;
+        case DEAL_CARDS:
+            break;
         case FAILED:
             emit failed_msg(ptr->data1);
             break;

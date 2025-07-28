@@ -12,7 +12,24 @@ GameMode::GameMode(QWidget *parent) : QDialog(parent), ui(new Ui::GameMode) {
     
     this->setFixedSize(1080, 720);
     ui->stackedWidget->setCurrentIndex(0);
+    ui->information->setVisible(false);
+
+    Communication* communication = DataManager::get_instance()->communication();
     
+    connect(communication, &Communication::player_count, this, [=](int count) {
+        QString tip = QString("There are <%1> players in the current <%2> room, waiting for other players to enter")
+                          .arg(count)
+                          .arg(DataManager::get_instance()->room_name());
+        ui->information->setText(tip);
+        ui->information->setVisible(true);
+    });
+    
+    connect(ui->stackedWidget, &QStackedWidget::currentChanged, this, [=](int index) {
+        if (index == 0) {
+            ui->information->setVisible(false);
+        }
+    });
+
     connect(ui->standalone_btn, &QPushButton::clicked, this, [=]() {
         MainWindow* main_window = new MainWindow;
         
@@ -22,7 +39,7 @@ GameMode::GameMode(QWidget *parent) : QDialog(parent), ui(new Ui::GameMode) {
         
         hide();
     });
-    
+
     connect(ui->online_btn, &QPushButton::clicked, this, [=]() {
         ui->stackedWidget->setCurrentIndex(1);
     });
