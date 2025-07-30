@@ -70,6 +70,8 @@ class GameControl : public QObject {
     void on_bid_lord(Player* player, int points);
     
     void on_play_a_hand(Player* player, Cards& cards);
+    
+    void set_current_player(int index);
 
   signals:
     void player_status_changed(Player* player, PlayerStatus status);

@@ -36,9 +36,7 @@ void GameControl::player_init() {
     
     right_robot_->set_prev_player(user_player_);
     right_robot_->set_next_player(left_robot_);
-    
-    current_player_ = user_player_;
-    
+        
     connect(user_player_, &UserPlayer::notify_bid_lord, this, &GameControl::on_bid_lord);
     connect(left_robot_, &Robot::notify_bid_lord, this, &GameControl::on_bid_lord);
     connect(right_robot_, &Robot::notify_bid_lord, this, &GameControl::on_bid_lord);
@@ -245,4 +243,14 @@ void GameControl::on_play_a_hand(Player *player, Cards& cards) {
     current_player_->prepare_play_a_hand();
     
     emit player_status_changed(current_player_, GameControl::PlayerStatus::kPreparePlayAHand);
+}
+
+void GameControl::set_current_player(int index) {
+    if (index == 1) {
+        current_player_ = user_player_;
+    } else if (index == 2) {
+        current_player_ = left_robot_;
+    } else if (index == 3) {
+        current_player_ = right_robot_;
+    }
 }

@@ -89,6 +89,9 @@ class MainWindow : public QMainWindow {
     
     void update_player_info(order_map& info);
     
+    void start_game();
+    void start_game(int index);
+    
   protected:
     void paintEvent(QPaintEvent* event) override;
     

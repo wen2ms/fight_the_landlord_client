@@ -116,14 +116,9 @@ void MainWindow::init_buttons_group() {
     
     ui->button_group->select_panel(ButtonGroup::Panel::kSatrt);
     
-    connect(ui->button_group, &ButtonGroup::start_game, this, [=]() {
-        ui->button_group->select_panel(ButtonGroup::Panel::kEmpty);
-        game_control_->clear_player_score();
-        update_scores();
-        
-        game_status_process(GameControl::GameStatus::kDealingCard);
-        bgm_->start_bgm(0.8);
-    });
+    void (MainWindow::*start_game)() = &MainWindow::start_game;
+    
+    connect(ui->button_group, &ButtonGroup::start_game, this, start_game);
     connect(ui->button_group, &ButtonGroup::play_a_hand, this, &MainWindow::on_user_play_a_hand);
     connect(ui->button_group, &ButtonGroup::pass, this, &MainWindow::on_user_pass);
     connect(ui->button_group, &ButtonGroup::bid_points, this, [=](int points) {
@@ -765,7 +760,7 @@ void MainWindow::init_main_window(QByteArray msg) {
     auto data_list = msg.left(msg.length() - 1).split('#');
     for (const auto& data : data_list) {
         auto sub_data = data.split('-');
-        hash.insert(sub_data.at(1).toInt(), QPair(sub_data.at(0), sub_data.at(2).toInt()));
+        hash.insert(sub_data.at(1).toInt(), QPair<QByteArray, int>(sub_data.at(0), sub_data.at(2).toInt()));
         
         if (sub_data.at(0) == DataManager::get_instance()->user_name()) {
             index = sub_data.at(1).toInt();
@@ -773,6 +768,7 @@ void MainWindow::init_main_window(QByteArray msg) {
     }
     
     update_player_info(hash);
+    start_game(index);
 }
 
 void MainWindow::update_player_info(order_map& info) {
@@ -814,6 +810,20 @@ void MainWindow::update_player_info(order_map& info) {
     
     name_list_.clear();
     name_list_ << left_name << mid_name << right_name;
+}
+
+void MainWindow::start_game() {
+    int index = QRandomGenerator::global()->bounded(3);    
+    start_game(index + 1);
+}
+
+void MainWindow::start_game(int index) {
+    game_control_->set_current_player(index);
+    ui->button_group->select_panel(ButtonGroup::Panel::kEmpty);
+    update_scores();
+    
+    game_status_process(GameControl::GameStatus::kDealingCard);
+    bgm_->start_bgm(0.8);    
 }
 
 void MainWindow::paintEvent(QPaintEvent *event) {
