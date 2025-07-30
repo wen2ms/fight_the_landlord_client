@@ -32,6 +32,8 @@ class Communication : public QObject, public QRunnable {
     
     QByteArray generate_aes_key(KeyLen len);
     
+    void parse_cards(QByteArray data1, QByteArray data2);
+    
   protected:
     void run() override;
     
@@ -43,7 +45,7 @@ class Communication : public QObject, public QRunnable {
     
     void failed_msg(QByteArray msg);
     void player_count(int number);
-    
+    void start_game(QByteArray msg);
     
   private:
     TcpSocket* socket_;

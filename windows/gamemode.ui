@@ -298,6 +298,13 @@
      </widget>
     </widget>
    </item>
+   <item>
+    <widget class="QLabel" name="information">
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <resources/>

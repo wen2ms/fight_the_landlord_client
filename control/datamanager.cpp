@@ -26,6 +26,11 @@ void DataManager::set_communication(Communication *comm) {
     comm_ = comm;
 }
 
+void DataManager::set_cards(Cards cards, Cards last_three_cards) {
+    cards_ = cards;
+    last_three_cards_ = last_three_cards;
+}
+
 QByteArray DataManager::user_name() {
     return user_name_;
 }
@@ -44,4 +49,12 @@ QByteArray DataManager::port() {
 
 Communication *DataManager::communication() {
     return comm_;
+}
+
+Cards DataManager::cards() {
+    return cards_;    
+}
+
+Cards DataManager::last_three_cards() {
+    return last_three_cards_;
 }

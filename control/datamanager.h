@@ -4,6 +4,7 @@
 #include <QByteArray>
 
 #include "communication.h"
+#include "cards.h"
 
 class DataManager {
   public:
@@ -18,6 +19,7 @@ class DataManager {
     void set_port(QByteArray port);
     
     void set_communication(Communication* comm);
+    void set_cards(Cards cards, Cards last_three_cards);
 
     QByteArray user_name();
     QByteArray room_name();
@@ -25,6 +27,8 @@ class DataManager {
     QByteArray port();
     
     Communication* communication();
+    Cards cards();
+    Cards last_three_cards();
 
   private:
     DataManager() = default;
@@ -37,6 +41,8 @@ class DataManager {
     QByteArray port_ = "<port>";
     
     Communication* comm_;
+    Cards cards_;
+    Cards last_three_cards_;
 };
 
 #endif // DATAMANAGER_H

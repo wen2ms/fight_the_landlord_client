@@ -7,6 +7,7 @@
 #include "./ui_mainwindow.h"
 #include "endpanel.h"
 #include "playahand.h"
+#include "datamanager.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
@@ -753,6 +754,20 @@ void MainWindow::init_count_down() {
             count_down_->show_count_down();
         }
     });
+}
+
+void MainWindow::init_main_window(QByteArray msg) {
+    int index;
+    QMap<int, QPair<QByteArray, int>> order_map;
+    auto data_list = msg.left(msg.length() - 1).split('#');
+    for (const auto& data : data_list) {
+        auto sub_data = data.split('-');
+        order_map.insert(sub_data.at(1).toInt(), QPair(sub_data.at(0), sub_data.at(1).toInt()));
+        
+        if (sub_data.at(0) == DataManager::get_instance()->user_name()) {
+            index = sub_data.at(1).toInt();
+        }
+    }
 }
 
 void MainWindow::paintEvent(QPaintEvent *event) {

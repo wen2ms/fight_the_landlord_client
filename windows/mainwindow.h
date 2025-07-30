@@ -83,6 +83,8 @@ class MainWindow : public QMainWindow {
     
     void init_count_down();
     
+    void init_main_window(QByteArray msg);
+    
   protected:
     void paintEvent(QPaintEvent* event) override;
     

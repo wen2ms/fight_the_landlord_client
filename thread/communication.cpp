@@ -7,6 +7,7 @@
 
 #include "datamanager.h"
 #include "rsacrypto.h"
+#include "cards.h"
 
 Communication::Communication(Message& msg, QObject* parent)
     : QObject{parent}, socket_(nullptr), is_stop_(false), msg_info_(msg), aes_crypto_(nullptr) {
@@ -73,6 +74,10 @@ void Communication::parse_recv_message() {
             emit player_count(ptr->data1.toInt());
             break;
         case DEAL_CARDS:
+            parse_cards(ptr->data1, ptr->data2);
+            break;
+        case START_GAME:
+            emit start_game(ptr->data1);
             break;
         case FAILED:
             emit failed_msg(ptr->data1);
@@ -111,6 +116,25 @@ QByteArray Communication::generate_aes_key(KeyLen len) {
     time = hash.result().left(len);
     
     return time;
+}
+
+void Communication::parse_cards(QByteArray data1, QByteArray data2) {
+    auto func = [](QByteArray message) {
+        auto data_list = message.left(message.length() - 1).split('#');
+        Cards cards;
+        for (const auto& data : data_list) {
+            auto sub_data = data.split('-');
+            Card card(static_cast<Card::CardSuit>(sub_data.first().toInt()),
+                      static_cast<Card::CardRank>(sub_data.last().toInt()));
+            cards.add(card);
+        }
+        return cards;
+    };
+    
+    Cards cards = func(data1);
+    Cards last_three_cards = func(data2);
+    
+    DataManager::get_instance()->set_cards(cards, last_three_cards);
 }
 
 void Communication::run() {

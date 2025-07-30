@@ -24,6 +24,16 @@ GameMode::GameMode(QWidget *parent) : QDialog(parent), ui(new Ui::GameMode) {
         ui->information->setVisible(true);
     });
     
+    connect(communication, &Communication::start_game, this, [=](QByteArray msg) {
+        this->hide();
+        MainWindow* main_window = new MainWindow;
+        
+        main_window->show();
+        main_window->init_main_window();
+        connect(main_window, &MainWindow::window_close, this, &GameMode::show);
+        disconnect(communication, &Communication::start_game, this, nullptr);
+    });
+    
     connect(ui->stackedWidget, &QStackedWidget::currentChanged, this, [=](int index) {
         if (index == 0) {
             ui->information->setVisible(false);
