@@ -85,7 +85,7 @@ class MainWindow : public QMainWindow {
     
     void init_count_down();
     
-    void init_main_window(QByteArray msg);
+    void init_main_window(const QByteArray& msg);
     
     void update_player_info(order_map& info);
     

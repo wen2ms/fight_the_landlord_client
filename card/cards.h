@@ -46,7 +46,7 @@ class Cards {
     Card::CardList to_card_list(SortType type = kDescending);
     
   private:
-    QSet<Card> cards_;
+    QList<Card> cards_;
 };
 
 #endif  // CARDS_H

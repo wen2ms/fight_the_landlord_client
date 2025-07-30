@@ -8,6 +8,11 @@
 
 class DataManager {
   public:
+    enum GameModeType {
+        kStandalone,
+        kOnline
+    };
+
     DataManager(const DataManager &other) = delete;
     DataManager &operator=(const DataManager &other) = delete;
 
@@ -20,6 +25,7 @@ class DataManager {
     
     void set_communication(Communication* comm);
     void set_cards(Cards cards, Cards last_three_cards);
+    void set_game_mode_type(GameModeType mode_type);
 
     QByteArray user_name();
     QByteArray room_name();
@@ -29,6 +35,7 @@ class DataManager {
     Communication* communication();
     Cards cards();
     Cards last_three_cards();
+    GameModeType game_mode_type();
 
   private:
     DataManager() = default;
@@ -43,6 +50,7 @@ class DataManager {
     Communication* comm_;
     Cards cards_;
     Cards last_three_cards_;
+    GameModeType game_mode_type_; 
 };
 
 #endif // DATAMANAGER_H

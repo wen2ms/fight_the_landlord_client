@@ -754,8 +754,8 @@ void MainWindow::init_count_down() {
     });
 }
 
-void MainWindow::init_main_window(QByteArray msg) {
-    int index;
+void MainWindow::init_main_window(const QByteArray& msg) {
+    int index = 1;
     order_map hash;
     auto data_list = msg.left(msg.length() - 1).split('#');
     for (const auto& data : data_list) {

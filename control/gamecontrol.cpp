@@ -3,6 +3,7 @@
 #include <QRandomGenerator>
 #include <QTimer>
 
+#include "datamanager.h"
 #include "playahand.h"
 
 GameControl::GameControl(QObject *parent) : QObject{parent}, left_robot_(nullptr), right_robot_(nullptr),
@@ -79,6 +80,12 @@ Cards GameControl::pending_cards() const {
 }
 
 void GameControl::init_all_cards() {
+    if (DataManager::get_instance()->game_mode_type() == DataManager::kOnline) {
+        all_cards_ = DataManager::get_instance()->cards();
+        all_cards_.add(DataManager::get_instance()->last_three_cards());
+        return;
+    }
+    
     all_cards_.clear();
     
     for (int suit = Card::CardSuit::kSuitBegin + 1; suit < Card::CardSuit::kSuitEnd; ++suit) {
@@ -94,7 +101,7 @@ void GameControl::init_all_cards() {
 }
 
 Card GameControl::take_one_card() {
-    return all_cards_.take_random_card();   
+    return all_cards_.take_random_card();
 }
 
 Cards GameControl::take_remaining_cards() const {

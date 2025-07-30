@@ -2,6 +2,8 @@
 
 #include <QRandomGenerator>
 
+#include "datamanager.h"
+
 Cards::Cards() {}
 
 Cards::Cards(const Card& card) {
@@ -9,11 +11,11 @@ Cards::Cards(const Card& card) {
 }
 
 void Cards::add(const Card& card) {
-    cards_.insert(card);    
+    cards_.append(card);    
 }
 
 void Cards::add(const Cards& cards) {
-    cards_.unite(cards.cards_);   
+    cards_.append(cards.cards_);
 }
 
 Cards& Cards::operator<<(const Card& card) {
@@ -23,11 +25,18 @@ Cards& Cards::operator<<(const Card& card) {
 }
 
 void Cards::remove(const Card& card) {
-    cards_.remove(card);
+    cards_.removeOne(card);
 }
 
 void Cards::remove(const Cards& cards) {
-    cards_.subtract(cards.cards_);
+    for (const Card& card : cards.cards_) {
+        for (const Card& item : cards_) {
+            if (card == item) {
+                remove(item);
+                break;
+            }
+        }
+    }
 }
 
 void Cards::remove(const QVector<Cards>& cards_list) {
@@ -94,21 +103,35 @@ bool Cards::contains(const Card& card) {
 }
 
 bool Cards::contains(const Cards& cards) {
+    // for (const Card& card : cards.cards_) {
+    //     if (!contains(card)) {
+    //         return false;
+    //     }
+    // }
+    // return true;
+    
     return cards_.contains(cards.cards_);
 }
 
 Card Cards::take_random_card() {
-    int random = QRandomGenerator::global()->bounded(cards_.size());
+    Card card;
     
-    QSet<Card>::const_iterator it = cards_.constBegin();
-    
-    for (int i = 0; i < random; ++i) {
-        ++it;
+    if (DataManager::get_instance()->game_mode_type() == DataManager::kStandalone) {
+        int random = QRandomGenerator::global()->bounded(cards_.size());
+        
+        QList<Card>::const_iterator it = cards_.constBegin();
+        
+        for (int i = 0; i < random; ++i) {
+            ++it;
+        }
+        
+        Card card = *it;
+        
+        cards_.erase(it);
+    } else {
+        card = cards_.takeFirst();
     }
-    
-    Card card = *it;
-    
-    cards_.erase(it);
+
     return card;
 }
 

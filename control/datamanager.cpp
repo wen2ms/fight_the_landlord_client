@@ -31,6 +31,10 @@ void DataManager::set_cards(Cards cards, Cards last_three_cards) {
     last_three_cards_ = last_three_cards;
 }
 
+void DataManager::set_game_mode_type(GameModeType mode_type) {
+    game_mode_type_ = mode_type;
+}
+
 QByteArray DataManager::user_name() {
     return user_name_;
 }
@@ -57,4 +61,8 @@ Cards DataManager::cards() {
 
 Cards DataManager::last_three_cards() {
     return last_three_cards_;
+}
+
+DataManager::GameModeType DataManager::game_mode_type() {
+    return game_mode_type_;
 }

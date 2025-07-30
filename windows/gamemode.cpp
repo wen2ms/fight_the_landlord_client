@@ -42,16 +42,15 @@ GameMode::GameMode(QWidget *parent) : QDialog(parent), ui(new Ui::GameMode) {
 
     connect(ui->standalone_btn, &QPushButton::clicked, this, [=]() {
         MainWindow* main_window = new MainWindow;
-        
         connect(main_window, &MainWindow::window_close, this, &GameMode::show);
-        
         main_window->show();
-        
         hide();
+        DataManager::get_instance()->set_game_mode_type(DataManager::kStandalone);
     });
 
     connect(ui->online_btn, &QPushButton::clicked, this, [=]() {
         ui->stackedWidget->setCurrentIndex(1);
+        DataManager::get_instance()->set_game_mode_type(DataManager::kOnline);
     });
     
     connect(ui->auto_create_room_btn, &QPushButton::clicked, this, [=]() {
