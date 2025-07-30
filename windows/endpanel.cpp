@@ -45,6 +45,10 @@ void EndPanel::set_scores(int left_score, int right_score, int my_score) {
     score_->set_scores(left_score, right_score, my_score);
 }
 
+void EndPanel::set_player_name(QByteArrayList names) {
+    score_->set_player_name(names.at(0), names.at(1), names.at(2));
+}
+
 void EndPanel::paintEvent(QPaintEvent *event) {
     QPainter painter(this);
     

@@ -64,7 +64,9 @@ void MainWindow::game_control_init() {
     
     connect(left_robot, &Player::notify_got_cards, this, &MainWindow::dealt_card_process);
     connect(right_robot, &Player::notify_got_cards, this, &MainWindow::dealt_card_process);
-    connect(user_player, &Player::notify_got_cards, this, &MainWindow::dealt_card_process);    
+    connect(user_player, &Player::notify_got_cards, this, &MainWindow::dealt_card_process);
+
+    name_list_ << left_robot->name().toUtf8() << user_player->name().toUtf8() << right_robot->name().toUtf8();
 }
 
 void MainWindow::update_scores() {
@@ -717,6 +719,7 @@ void MainWindow::show_end_panel() {
     end_panel->show();
     end_panel->move((width() - end_panel->width()) / 2, -end_panel->height());
     end_panel->set_scores(player_list_[0]->score(), player_list_[1]->score(), player_list_[2]->score());
+    end_panel->set_player_name(name_list_);
     
     bgm_->play_ending_music(is_win);
     
@@ -758,16 +761,59 @@ void MainWindow::init_count_down() {
 
 void MainWindow::init_main_window(QByteArray msg) {
     int index;
-    QMap<int, QPair<QByteArray, int>> order_map;
+    order_map hash;
     auto data_list = msg.left(msg.length() - 1).split('#');
     for (const auto& data : data_list) {
         auto sub_data = data.split('-');
-        order_map.insert(sub_data.at(1).toInt(), QPair(sub_data.at(0), sub_data.at(1).toInt()));
+        hash.insert(sub_data.at(1).toInt(), QPair(sub_data.at(0), sub_data.at(2).toInt()));
         
         if (sub_data.at(0) == DataManager::get_instance()->user_name()) {
             index = sub_data.at(1).toInt();
         }
     }
+    
+    update_player_info(hash);
+}
+
+void MainWindow::update_player_info(order_map& info) {
+    int left_score = 0;
+    int right_score = 0;
+    int mid_score = 0;
+    QByteArray left_name;
+    QByteArray right_name;
+    QByteArray mid_name;
+    QByteArray current_player = DataManager::get_instance()->user_name();
+    
+    if (current_player == info.value(1).first) {
+        mid_name = info.value(1).first;
+        right_name = info.value(2).first;
+        left_name = info.value(3).first;
+        mid_score = info.value(1).second;
+        right_score = info.value(2).second;
+        left_score = info.value(3).second;
+    } else if (current_player == info.value(2).first) {
+        mid_name = info.value(2).first;
+        right_name = info.value(3).first;
+        left_name = info.value(1).first;
+        mid_score = info.value(2).second;
+        right_score = info.value(3).second;
+        left_score = info.value(1).second;
+    } else if (current_player == info.value(3).first) {
+        mid_name = info.value(3).first;
+        right_name = info.value(1).first;
+        left_name = info.value(2).first;
+        mid_score = info.value(3).second;
+        right_score = info.value(1).second;
+        left_score = info.value(2).second;
+    }
+    
+    ui->score_panel->set_player_name(left_name, mid_name, right_name);
+    game_control_->left_robot()->set_score(left_score);
+    game_control_->right_robot()->set_score(right_score);
+    game_control_->current_player()->set_score(mid_score);
+    
+    name_list_.clear();
+    name_list_ << left_name << mid_name << right_name;
 }
 
 void MainWindow::paintEvent(QPaintEvent *event) {

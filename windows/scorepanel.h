@@ -22,6 +22,8 @@ class ScorePanel : public QWidget {
     void set_score_font_size(int point);
     
     void set_score_font_color(FontColor color);
+    
+    void set_player_name(QByteArray left_name, QByteArray mid_name, QByteArray right_name);
 
   private:
     Ui::ScorePanel *ui;

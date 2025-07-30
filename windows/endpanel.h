@@ -14,6 +14,8 @@ class EndPanel : public QWidget {
     
     void set_scores(int left_score, int right_score, int my_score);
     
+    void set_player_name(QByteArrayList names);
+    
   signals:
     void continue_game();
     

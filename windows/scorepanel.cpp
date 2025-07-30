@@ -36,3 +36,9 @@ void ScorePanel::set_score_font_color(FontColor color) {
         labels_list_[i]->setStyleSheet(style_sheet);
     }
 }
+
+void ScorePanel::set_player_name(QByteArray left_name, QByteArray mid_name, QByteArray right_name) {
+    ui->left_title->setText(left_name);
+    ui->my_title->setText(mid_name);
+    ui->right_title->setText(right_name);
+}

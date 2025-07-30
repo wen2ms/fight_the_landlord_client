@@ -23,6 +23,8 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
 
   public:
+    using order_map = QMap<int, QPair<QByteArray, int>>;
+    
     enum AnimationType {
         kSeqSingle,
         kSeqPair,
@@ -85,6 +87,8 @@ class MainWindow : public QMainWindow {
     
     void init_main_window(QByteArray msg);
     
+    void update_player_info(order_map& info);
+    
   protected:
     void paintEvent(QPaintEvent* event) override;
     
@@ -143,5 +147,7 @@ class MainWindow : public QMainWindow {
     
     CountDown* count_down_;
     BGMControl* bgm_;
+    
+    QByteArrayList name_list_;
 };
 #endif  // MAINWINDOW_H
