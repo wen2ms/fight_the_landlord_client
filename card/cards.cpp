@@ -103,14 +103,12 @@ bool Cards::contains(const Card& card) {
 }
 
 bool Cards::contains(const Cards& cards) {
-    // for (const Card& card : cards.cards_) {
-    //     if (!contains(card)) {
-    //         return false;
-    //     }
-    // }
-    // return true;
-    
-    return cards_.contains(cards.cards_);
+    for (const Card& card : cards.cards_) {
+        if (!contains(card)) {
+            return false;
+        }
+    }
+    return true;
 }
 
 Card Cards::take_random_card() {

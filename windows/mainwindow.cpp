@@ -823,7 +823,7 @@ void MainWindow::start_game(int index) {
     update_scores();
     
     game_status_process(GameControl::GameStatus::kDealingCard);
-    bgm_->start_bgm(0.8);    
+    bgm_->start_bgm(0.8);
 }
 
 void MainWindow::paintEvent(QPaintEvent *event) {

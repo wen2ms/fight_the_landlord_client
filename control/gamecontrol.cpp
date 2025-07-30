@@ -37,6 +37,8 @@ void GameControl::player_init() {
     
     right_robot_->set_prev_player(user_player_);
     right_robot_->set_next_player(left_robot_);
+    
+    current_player_ = user_player_;
         
     connect(user_player_, &UserPlayer::notify_bid_lord, this, &GameControl::on_bid_lord);
     connect(left_robot_, &Robot::notify_bid_lord, this, &GameControl::on_bid_lord);

@@ -27,10 +27,9 @@ GameMode::GameMode(QWidget *parent) : QDialog(parent), ui(new Ui::GameMode) {
     connect(communication, &Communication::start_game, this, [=](QByteArray msg) {
         this->hide();
         MainWindow* main_window = new MainWindow;
-        
+        connect(main_window, &MainWindow::window_close, this, &GameMode::show);
         main_window->show();
         main_window->init_main_window(msg);
-        connect(main_window, &MainWindow::window_close, this, &GameMode::show);
         disconnect(communication, &Communication::start_game, this, nullptr);
     });
     
