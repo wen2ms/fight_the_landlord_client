@@ -67,6 +67,7 @@ enum RequestCode : int {
   AUTO_CREATE_ROOM = 3,
   MANUAL_CREATE_ROOM = 4,
   SEARCH_ROOM = 5,
+  BID_LORD = 6,
   RequestCode_INT_MIN_SENTINEL_DO_NOT_USE_ =
       std::numeric_limits<::int32_t>::min(),
   RequestCode_INT_MAX_SENTINEL_DO_NOT_USE_ =
@@ -76,8 +77,8 @@ enum RequestCode : int {
 bool RequestCode_IsValid(int value);
 extern const uint32_t RequestCode_internal_data_[];
 constexpr RequestCode RequestCode_MIN = static_cast<RequestCode>(0);
-constexpr RequestCode RequestCode_MAX = static_cast<RequestCode>(5);
-constexpr int RequestCode_ARRAYSIZE = 5 + 1;
+constexpr RequestCode RequestCode_MAX = static_cast<RequestCode>(6);
+constexpr int RequestCode_ARRAYSIZE = 6 + 1;
 const ::google::protobuf::EnumDescriptor*
 RequestCode_descriptor();
 template <typename T>
@@ -90,7 +91,7 @@ const std::string& RequestCode_Name(T value) {
 template <>
 inline const std::string& RequestCode_Name(RequestCode value) {
   return ::google::protobuf::internal::NameOfDenseEnum<RequestCode_descriptor,
-                                                 0, 5>(
+                                                 0, 6>(
       static_cast<int>(value));
 }
 inline bool RequestCode_Parse(absl::string_view name, RequestCode* value) {
@@ -106,7 +107,8 @@ enum ResponseCode : int {
   START_GAME = 5,
   SEARCH_ROOM_OK = 6,
   DEAL_CARDS = 7,
-  FAILED = 8,
+  OTHER_BID_LORD = 8,
+  FAILED = 9,
   ResponseCode_INT_MIN_SENTINEL_DO_NOT_USE_ =
       std::numeric_limits<::int32_t>::min(),
   ResponseCode_INT_MAX_SENTINEL_DO_NOT_USE_ =
@@ -116,8 +118,8 @@ enum ResponseCode : int {
 bool ResponseCode_IsValid(int value);
 extern const uint32_t ResponseCode_internal_data_[];
 constexpr ResponseCode ResponseCode_MIN = static_cast<ResponseCode>(0);
-constexpr ResponseCode ResponseCode_MAX = static_cast<ResponseCode>(8);
-constexpr int ResponseCode_ARRAYSIZE = 8 + 1;
+constexpr ResponseCode ResponseCode_MAX = static_cast<ResponseCode>(9);
+constexpr int ResponseCode_ARRAYSIZE = 9 + 1;
 const ::google::protobuf::EnumDescriptor*
 ResponseCode_descriptor();
 template <typename T>
@@ -130,7 +132,7 @@ const std::string& ResponseCode_Name(T value) {
 template <>
 inline const std::string& ResponseCode_Name(ResponseCode value) {
   return ::google::protobuf::internal::NameOfDenseEnum<ResponseCode_descriptor,
-                                                 0, 8>(
+                                                 0, 9>(
       static_cast<int>(value));
 }
 inline bool ResponseCode_Parse(absl::string_view name, ResponseCode* value) {

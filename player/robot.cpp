@@ -3,9 +3,11 @@
 #include <QDebug>
 #include <QThreadPool>
 
-#include "strategy.h"
 #include "robotbidlord.h"
 #include "robotplayahand.h"
+#include "strategy.h"
+#include "taskqueue.h"
+#include "datamanager.h"
 
 Robot::Robot(QObject *parent) : Player{parent} {
     type_ = kRobot;
@@ -24,6 +26,13 @@ void Robot::prepare_play_a_hand() {
 }
 
 void Robot::thinking_bid_lord() {
+    if (DataManager::get_instance()->game_mode_type() == DataManager::kOnline) {
+        Task task = TaskQueue::get_instance()->take();
+        
+        bid_lord(task.points);
+        return;
+    }
+    
     int weight = 0;
     
     Strategy strategy(this, cards_);

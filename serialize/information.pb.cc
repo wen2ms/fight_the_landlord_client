@@ -101,21 +101,22 @@ const char descriptor_table_protodef_information_2eproto[] ABSL_ATTRIBUTE_SECTIO
     "ser_name\030\001 \001(\t\022\021\n\troom_name\030\002 \001(\t\022\r\n\005dat"
     "a1\030\003 \001(\t\022\r\n\005data2\030\004 \001(\t\022\r\n\005data3\030\005 \001(\t\022\035"
     "\n\007reqcode\030\006 \001(\0162\014.RequestCode\022\036\n\007rescode"
-    "\030\007 \001(\0162\r.ResponseCode*\200\001\n\013RequestCode\022\016\n"
+    "\030\007 \001(\0162\r.ResponseCode*\216\001\n\013RequestCode\022\016\n"
     "\nUSER_LOGIN\020\000\022\014\n\010REGISTER\020\001\022\024\n\020AES_DISTR"
     "IBUTION\020\002\022\024\n\020AUTO_CREATE_ROOM\020\003\022\026\n\022MANUA"
-    "L_CREATE_ROOM\020\004\022\017\n\013SEARCH_ROOM\020\005*\250\001\n\014Res"
-    "ponseCode\022\014\n\010LOGIN_OK\020\000\022\017\n\013REGISTER_OK\020\001"
-    "\022\024\n\020RSA_DISTRIBUTION\020\002\022\021\n\rAES_VERIFY_OK\020"
-    "\003\022\020\n\014JOIN_ROOM_OK\020\004\022\016\n\nSTART_GAME\020\005\022\022\n\016S"
-    "EARCH_ROOM_OK\020\006\022\016\n\nDEAL_CARDS\020\007\022\n\n\006FAILE"
-    "D\020\010b\006proto3"
+    "L_CREATE_ROOM\020\004\022\017\n\013SEARCH_ROOM\020\005\022\014\n\010BID_"
+    "LORD\020\006*\274\001\n\014ResponseCode\022\014\n\010LOGIN_OK\020\000\022\017\n"
+    "\013REGISTER_OK\020\001\022\024\n\020RSA_DISTRIBUTION\020\002\022\021\n\r"
+    "AES_VERIFY_OK\020\003\022\020\n\014JOIN_ROOM_OK\020\004\022\016\n\nSTA"
+    "RT_GAME\020\005\022\022\n\016SEARCH_ROOM_OK\020\006\022\016\n\nDEAL_CA"
+    "RDS\020\007\022\022\n\016OTHER_BID_LORD\020\010\022\n\n\006FAILED\020\tb\006p"
+    "roto3"
 };
 static ::absl::once_flag descriptor_table_information_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_information_2eproto = {
     false,
     false,
-    491,
+    525,
     descriptor_table_protodef_information_2eproto,
     "information.proto",
     &descriptor_table_information_2eproto_once,
@@ -133,18 +134,18 @@ const ::google::protobuf::EnumDescriptor* RequestCode_descriptor() {
   return file_level_enum_descriptors_information_2eproto[0];
 }
 PROTOBUF_CONSTINIT const uint32_t RequestCode_internal_data_[] = {
-    393216u, 0u, };
+    458752u, 0u, };
 bool RequestCode_IsValid(int value) {
-  return 0 <= value && value <= 5;
+  return 0 <= value && value <= 6;
 }
 const ::google::protobuf::EnumDescriptor* ResponseCode_descriptor() {
   ::google::protobuf::internal::AssignDescriptors(&descriptor_table_information_2eproto);
   return file_level_enum_descriptors_information_2eproto[1];
 }
 PROTOBUF_CONSTINIT const uint32_t ResponseCode_internal_data_[] = {
-    589824u, 0u, };
+    655360u, 0u, };
 bool ResponseCode_IsValid(int value) {
-  return 0 <= value && value <= 8;
+  return 0 <= value && value <= 9;
 }
 // ===================================================================
 

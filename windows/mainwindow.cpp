@@ -124,6 +124,14 @@ void MainWindow::init_buttons_group() {
     connect(ui->button_group, &ButtonGroup::bid_points, this, [=](int points) {
         game_control_->user_player()->bid_lord(points);
         ui->button_group->select_panel(ButtonGroup::Panel::kEmpty);
+        if (DataManager::get_instance()->game_mode_type() == DataManager::kOnline) {
+            Message msg;
+            msg.user_name = DataManager::get_instance()->user_name();
+            msg.room_name = DataManager::get_instance()->room_name();
+            msg.data1 = QByteArray::number(points);
+            msg.reqcode = BID_LORD;
+            DataManager::get_instance()->communication()->send_message(&msg);
+        }
     });
 }
 

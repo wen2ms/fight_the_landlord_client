@@ -5,9 +5,10 @@
 #include <QDebug>
 #include <QThread>
 
+#include "cards.h"
 #include "datamanager.h"
 #include "rsacrypto.h"
-#include "cards.h"
+#include "taskqueue.h"
 
 Communication::Communication(Message& msg, QObject* parent)
     : QObject{parent}, socket_(nullptr), is_stop_(false), msg_info_(msg), aes_crypto_(nullptr) {
@@ -79,6 +80,12 @@ void Communication::parse_recv_message() {
         case START_GAME:
             emit start_game(ptr->data1);
             break;
+        case OTHER_BID_LORD: {
+            Task task;
+            task.points = ptr->data1.toInt();
+            TaskQueue::get_instance()->add(task);
+            break;    
+        }      
         case FAILED:
             emit failed_msg(ptr->data1);
             break;
