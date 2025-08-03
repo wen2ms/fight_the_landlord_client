@@ -27,15 +27,15 @@ class DataManager {
     void set_cards(Cards cards, Cards last_three_cards);
     void set_game_mode_type(GameModeType mode_type);
 
-    QByteArray user_name();
-    QByteArray room_name();
-    QByteArray ip();
-    QByteArray port();
+    QByteArray user_name() const;
+    QByteArray room_name() const;
+    QByteArray ip() const;
+    QByteArray port() const;
     
-    Communication* communication();
-    Cards cards();
-    Cards last_three_cards();
-    GameModeType game_mode_type();
+    Communication* communication() const;
+    Cards cards() const;
+    Cards last_three_cards() const;
+    GameModeType game_mode_type() const;
 
   private:
     DataManager() = default;

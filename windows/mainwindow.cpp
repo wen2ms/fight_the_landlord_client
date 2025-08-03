@@ -637,6 +637,8 @@ void MainWindow::on_user_play_a_hand() {
     
     game_control_->user_player()->play_a_hand(cards);
     
+    notify_other_play_a_hand(cards);
+    
     selected_cards_.clear();
 }
 
@@ -657,6 +659,7 @@ void MainWindow::on_user_pass() {
     
     Cards empty_cards;
     user_player->play_a_hand(empty_cards);
+    notify_other_play_a_hand(empty_cards);
     
     for (auto it = selected_cards_.begin(); it != selected_cards_.end(); ++it) {
         (*it)->set_selected_side(false);
@@ -832,6 +835,24 @@ void MainWindow::start_game(int index) {
     
     game_status_process(GameControl::GameStatus::kDealingCard);
     bgm_->start_bgm(0.8);
+}
+
+void MainWindow::notify_other_play_a_hand(Cards& cards) {
+    const DataManager* instance = DataManager::get_instance();
+    if (instance->game_mode_type() == DataManager::kOnline) {
+        Message msg;
+        msg.user_name = instance->user_name();
+        msg.room_name = instance->room_name();
+        msg.data1 = QByteArray::number(cards.cards_count());
+        QDataStream stream(&msg.data2, QIODevice::ReadWrite);
+        Card::CardList card_list = cards.to_card_list();
+        for (const Card& card : card_list) {
+            stream << card;
+        }
+        msg.reqcode = PLAY_A_HAND;
+        instance->communication()->send_message(&msg);
+    }
+    
 }
 
 void MainWindow::paintEvent(QPaintEvent *event) {

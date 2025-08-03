@@ -23,6 +23,22 @@ Card::CardRank Card::rank() const {
     return rank_;
 }
 
+QDataStream& operator<<(QDataStream& in, const Card& card) {
+    int suit = static_cast<int>(card.suit());
+    int rank = static_cast<int>(card.rank());
+    in << suit << rank;
+    return in;    
+}
+
+QDataStream& operator>>(QDataStream& out, Card& card) {
+    int suit;
+    int rank;;
+    out >> suit >> rank;
+    card.set_suit(static_cast<Card::CardSuit>(suit));
+    card.set_rank(static_cast<Card::CardRank>(rank));
+    return out;    
+}
+
 bool less_card(const Card& card1, const Card& card2) {
     if (card1.rank() == card2.rank()) {
         return card1.suit() < card2.suit();

@@ -35,34 +35,34 @@ void DataManager::set_game_mode_type(GameModeType mode_type) {
     game_mode_type_ = mode_type;
 }
 
-QByteArray DataManager::user_name() {
+QByteArray DataManager::user_name() const {
     return user_name_;
 }
 
-QByteArray DataManager::room_name() {
+QByteArray DataManager::room_name() const {
     return room_name_;
 }
 
-QByteArray DataManager::ip() {
+QByteArray DataManager::ip() const {
     return ip_;
 }
 
-QByteArray DataManager::port() {
+QByteArray DataManager::port() const {
     return port_;
 }
 
-Communication *DataManager::communication() {
+Communication *DataManager::communication() const {
     return comm_;
 }
 
-Cards DataManager::cards() {
+Cards DataManager::cards() const {
     return cards_;    
 }
 
-Cards DataManager::last_three_cards() {
+Cards DataManager::last_three_cards() const {
     return last_three_cards_;
 }
 
-DataManager::GameModeType DataManager::game_mode_type() {
+DataManager::GameModeType DataManager::game_mode_type() const {
     return game_mode_type_;
 }

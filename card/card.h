@@ -1,6 +1,7 @@
 #ifndef CARD_H
 #define CARD_H
 
+#include <QDataStream>
 #include <QList>
 
 class Card {
@@ -43,6 +44,9 @@ class Card {
     void set_rank(CardRank rank);
     CardSuit suit() const;
     CardRank rank() const;
+    
+    friend QDataStream& operator<<(QDataStream& in, const Card& card);
+    friend QDataStream& operator>>(QDataStream& out, Card& card);
     
   private:
     CardSuit suit_;

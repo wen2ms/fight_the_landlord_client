@@ -92,6 +92,8 @@ class MainWindow : public QMainWindow {
     void start_game();
     void start_game(int index);
     
+    void notify_other_play_a_hand(Cards& cards);
+    
   protected:
     void paintEvent(QPaintEvent* event) override;
     
