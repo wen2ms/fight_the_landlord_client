@@ -77,6 +77,11 @@ void Robot::thinking_bid_lord() {
 }
 
 void Robot::thinking_play_a_hand() {
+    if (DataManager::get_instance()->game_mode_type() == DataManager::kOnline) {
+        Task task = TaskQueue::get_instance()->take();
+        play_a_hand(task.cards);
+        return;
+    }
     Strategy strategy(this, cards_);
     
     Cards cards = strategy.make_strategy();

@@ -85,7 +85,18 @@ void Communication::parse_recv_message() {
             task.points = ptr->data1.toInt();
             TaskQueue::get_instance()->add(task);
             break;    
-        }      
+        }
+        case OTHER_PLAY_A_HAND: {
+            Task task;
+            QDataStream stream(ptr->data2);
+            for (int i = 0; i < ptr->data1.toInt(); ++i) {
+                Card card;
+                stream >> card;
+                task.cards.add(card);
+            }
+            TaskQueue::get_instance()->add(task);
+            break;
+        }
         case FAILED:
             emit failed_msg(ptr->data1);
             break;
