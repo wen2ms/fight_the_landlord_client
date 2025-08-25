@@ -69,6 +69,7 @@ enum RequestCode : int {
   SEARCH_ROOM = 5,
   BID_LORD = 6,
   PLAY_A_HAND = 7,
+  GAME_OVER = 8,
   RequestCode_INT_MIN_SENTINEL_DO_NOT_USE_ =
       std::numeric_limits<::int32_t>::min(),
   RequestCode_INT_MAX_SENTINEL_DO_NOT_USE_ =
@@ -78,8 +79,8 @@ enum RequestCode : int {
 bool RequestCode_IsValid(int value);
 extern const uint32_t RequestCode_internal_data_[];
 constexpr RequestCode RequestCode_MIN = static_cast<RequestCode>(0);
-constexpr RequestCode RequestCode_MAX = static_cast<RequestCode>(7);
-constexpr int RequestCode_ARRAYSIZE = 7 + 1;
+constexpr RequestCode RequestCode_MAX = static_cast<RequestCode>(8);
+constexpr int RequestCode_ARRAYSIZE = 8 + 1;
 const ::google::protobuf::EnumDescriptor*
 RequestCode_descriptor();
 template <typename T>
@@ -92,7 +93,7 @@ const std::string& RequestCode_Name(T value) {
 template <>
 inline const std::string& RequestCode_Name(RequestCode value) {
   return ::google::protobuf::internal::NameOfDenseEnum<RequestCode_descriptor,
-                                                 0, 7>(
+                                                 0, 8>(
       static_cast<int>(value));
 }
 inline bool RequestCode_Parse(absl::string_view name, RequestCode* value) {

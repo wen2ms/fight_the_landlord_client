@@ -493,19 +493,27 @@ void MainWindow::on_player_status_changed(Player* player, GameControl::PlayerSta
                 ui->button_group->select_panel(ButtonGroup::Panel::kEmpty);
             }
             break;
-        case GameControl::PlayerStatus::kWin:
+        case GameControl::PlayerStatus::kWin: {
             bgm_->stop_bgm();
-            
+
             context_map_[game_control_->left_robot()].is_front_side = true;
             context_map_[game_control_->right_robot()].is_front_side = true;
-            
+
             update_player_cards(game_control_->left_robot());
             update_player_cards(game_control_->right_robot());
-            
+
             update_scores();
             game_control_->set_current_player(player);
             show_end_panel();
+            Message message{
+                .user_name = DataManager::get_instance()->user_name(),
+                .room_name = DataManager::get_instance()->room_name(),
+                .data1 = QByteArray::number(game_control_->user_player()->score()),
+                .reqcode = GAME_OVER
+            };
+            DataManager::get_instance()->communication()->send_message(&message);
             break;
+        }
         default:
             break;            
     }
@@ -818,6 +826,9 @@ void MainWindow::update_player_info(order_map& info) {
     game_control_->left_robot()->set_score(left_score);
     game_control_->right_robot()->set_score(right_score);
     game_control_->current_player()->set_score(mid_score);
+    game_control_->left_robot()->set_name(left_name);
+    game_control_->right_robot()->set_name(mid_name);
+    game_control_->current_player()->set_name(right_name);
     
     name_list_.clear();
     name_list_ << left_name << mid_name << right_name;
