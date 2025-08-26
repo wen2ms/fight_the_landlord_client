@@ -758,12 +758,20 @@ void MainWindow::show_end_panel() {
         animation->deleteLater();
         
         ui->button_group->select_panel(ButtonGroup::Panel::kEmpty);
-        Message message;
-        message.user_name = DataManager::get_instance()->user_name();
-        message.reqcode = AUTO_CREATE_ROOM;
-        DataManager::get_instance()->communication()->send_message(&message);
-        game_status_process(GameControl::GameStatus::kDealingCard);
-        bgm_->start_bgm(80);
+        if (DataManager::get_instance()->game_mode_type() == DataManager::kOnline) {
+            Message message;
+            if (DataManager::get_instance()->room_mode() == DataManager::kManual) {
+                message.room_name = DataManager::get_instance()->room_name();
+                message.reqcode = CONTINUE;
+            } else {
+                message.reqcode = AUTO_CREATE_ROOM;
+            }
+            message.user_name = DataManager::get_instance()->user_name();
+            DataManager::get_instance()->communication()->send_message(&message);
+        } else {
+            game_status_process(GameControl::GameStatus::kDealingCard);
+            bgm_->start_bgm(80);   
+        }
     });
 }
 

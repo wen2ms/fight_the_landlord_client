@@ -35,6 +35,10 @@ void DataManager::set_game_mode_type(GameModeType mode_type) {
     game_mode_type_ = mode_type;
 }
 
+void DataManager::set_room_mode(RoomMode room_mode) {
+    room_mode_ = room_mode;
+}
+
 QByteArray DataManager::user_name() const {
     return user_name_;
 }
@@ -65,4 +69,8 @@ Cards DataManager::last_three_cards() const {
 
 DataManager::GameModeType DataManager::game_mode_type() const {
     return game_mode_type_;
+}
+
+DataManager::RoomMode DataManager::room_mode() const {
+    return room_mode_;
 }

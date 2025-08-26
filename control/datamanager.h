@@ -12,6 +12,10 @@ class DataManager {
         kStandalone,
         kOnline
     };
+    enum RoomMode {
+        kAuto,
+        kManual        
+    };
 
     DataManager(const DataManager &other) = delete;
     DataManager &operator=(const DataManager &other) = delete;
@@ -26,6 +30,7 @@ class DataManager {
     void set_communication(Communication* comm);
     void set_cards(Cards cards, Cards last_three_cards);
     void set_game_mode_type(GameModeType mode_type);
+    void set_room_mode(RoomMode room_mode);
 
     QByteArray user_name() const;
     QByteArray room_name() const;
@@ -36,6 +41,7 @@ class DataManager {
     Cards cards() const;
     Cards last_three_cards() const;
     GameModeType game_mode_type() const;
+    RoomMode room_mode() const;
 
   private:
     DataManager() = default;
@@ -50,7 +56,8 @@ class DataManager {
     Communication* comm_;
     Cards cards_;
     Cards last_three_cards_;
-    GameModeType game_mode_type_; 
+    GameModeType game_mode_type_;
+    RoomMode room_mode_;
 };
 
 #endif // DATAMANAGER_H

@@ -59,6 +59,7 @@ GameMode::GameMode(QWidget *parent) : QDialog(parent), ui(new Ui::GameMode) {
         msg.reqcode = RequestCode::AUTO_CREATE_ROOM;
         
         DataManager::get_instance()->communication()->send_message(&msg);
+        DataManager::get_instance()->set_room_mode(DataManager::kAuto);
     });
     
     connect(ui->manual_create_room_btn, &QPushButton::clicked, this, [=]() {
