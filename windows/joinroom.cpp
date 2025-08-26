@@ -15,6 +15,11 @@ JoinRoom::JoinRoom(DialogType dialog_type, QWidget *parent) : QDialog(parent), u
     
     this->setFixedSize(720, 360);
     
+    Communication* communication = DataManager::get_instance()->communication();
+    connect(communication, &Communication::room_exists, this, [=](bool success) {
+        ui->join_room->setEnabled(success);
+    });
+    
     connect(ui->create_room, &QPushButton::clicked, this, &JoinRoom::join_room);
     connect(ui->search_room, &QPushButton::clicked, this, &JoinRoom::search_room);
     connect(ui->join_room, &QPushButton::clicked, this, &JoinRoom::join_room);

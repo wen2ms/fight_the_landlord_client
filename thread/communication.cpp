@@ -97,6 +97,11 @@ void Communication::parse_recv_message() {
             TaskQueue::get_instance()->add(task);
             break;
         }
+        case SEARCH_ROOM_OK: {
+            bool success = (ptr->data1 == "true");
+            emit room_exists(success);
+            break;
+        }
         case FAILED:
             emit failed_msg(ptr->data1);
             break;
