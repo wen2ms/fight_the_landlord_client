@@ -40,6 +40,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     
     animation_window_ = new AnimationWindow(this);
     bgm_ = new BGMControl(this);
+    Communication* communication = DataManager::get_instance()->communication();
+    connect(communication, &Communication::start_game, this, [=](QByteArray message) {
+        init_main_window(message);
+        game_status_process(GameControl::GameStatus::kDealingCard);
+        bgm_->start_bgm(80);
+        
+    });
 }
 
 MainWindow::~MainWindow() {
@@ -751,6 +758,10 @@ void MainWindow::show_end_panel() {
         animation->deleteLater();
         
         ui->button_group->select_panel(ButtonGroup::Panel::kEmpty);
+        Message message;
+        message.user_name = DataManager::get_instance()->user_name();
+        message.reqcode = AUTO_CREATE_ROOM;
+        DataManager::get_instance()->communication()->send_message(&message);
         game_status_process(GameControl::GameStatus::kDealingCard);
         bgm_->start_bgm(80);
     });
