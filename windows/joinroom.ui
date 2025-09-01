@@ -156,7 +156,7 @@
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="join_room">
+        <widget class="MyButton" name="join_room">
          <property name="text">
           <string/>
          </property>
@@ -181,6 +181,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MyButton</class>
+   <extends>QPushButton</extends>
+   <header>mybutton.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

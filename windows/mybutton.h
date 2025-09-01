@@ -10,7 +10,9 @@ class MyButton : public QPushButton {
   public:
     explicit MyButton(QWidget *parent = nullptr);
     
-    void set_image(QString normal, QString hovering, QString pressed);
+    void set_image(const QString& normal, const QString& hovering, const QString& pressed, const QString& disable = {});
+    
+    void set_button_disable(bool disable);
     
   protected:
     void mousePressEvent(QMouseEvent* event) override;
@@ -29,8 +31,9 @@ class MyButton : public QPushButton {
     QString normal_;
     QString hovering_;
     QString pressed_;
-    
-    QPixmap image_; 
+    QString disable_;
+    QPixmap image_;
+    bool is_disable_;
 };
 
 #endif  // MYBUTTON_H

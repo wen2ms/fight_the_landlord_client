@@ -7,6 +7,11 @@
 JoinRoom::JoinRoom(DialogType dialog_type, QWidget *parent) : QDialog(parent), ui(new Ui::JoinRoom) {
     ui->setupUi(this);
     
+    ui->join_room->setFixedSize(100, 45);
+    ui->join_room->set_image(":images/addRoom-normal.png", ":images/addRoom-hover.png", ":images/addRoom-pressed.png",
+                             ":images/addRoom-disable.png");
+    ui->join_room->set_button_disable(true);
+
     const QString kTitles[] = {":/images/info1.png", ":/images/info2.png"};
     int index = static_cast<int>(dialog_type);
     
@@ -17,7 +22,7 @@ JoinRoom::JoinRoom(DialogType dialog_type, QWidget *parent) : QDialog(parent), u
     
     Communication* communication = DataManager::get_instance()->communication();
     connect(communication, &Communication::room_exists, this, [=](bool success) {
-        ui->join_room->setEnabled(success);
+        ui->join_room->set_button_disable(!success);
     });
     
     connect(ui->create_room, &QPushButton::clicked, this, &JoinRoom::join_room);
