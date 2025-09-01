@@ -1,5 +1,6 @@
 #include <QApplication>
 #include <QResource>
+#include <QFile>
 
 #include "cards.h"
 #include "login.h"
@@ -51,11 +52,17 @@ int main(int argc, char *argv[]) {
     QString rcc_path = QCoreApplication::applicationDirPath() + "/../Resources/resource.rcc";
     QResource::registerResource(rcc_path);
     
+    QFile file(":/conf/style.qss");
+    file.open(QFile::ReadOnly);
+    QByteArray style = file.readAll();
+    app.setStyleSheet(style);
+    file.close();
+    
     Login login_window;
     int ret = login_window.exec();
     
     if (ret == QDialog::Accepted) {
-        test();
+        // test();
         
         return app.exec();     
     }

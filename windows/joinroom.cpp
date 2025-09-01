@@ -7,10 +7,10 @@
 JoinRoom::JoinRoom(DialogType dialog_type, QWidget *parent) : QDialog(parent), ui(new Ui::JoinRoom) {
     ui->setupUi(this);
     
-    const QString kTitles[] = {"Please enter the name of room created", "Please enter the name of room search"};
+    const QString kTitles[] = {":/images/info1.png", ":/images/info2.png"};
     int index = static_cast<int>(dialog_type);
     
-    ui->description->setText(kTitles[index]);
+    ui->description->setPixmap(QPixmap(kTitles[index]));
     ui->stackedWidget->setCurrentIndex(index);
     
     this->setFixedSize(720, 360);

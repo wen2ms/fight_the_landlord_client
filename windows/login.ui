@@ -54,7 +54,7 @@
            <widget class="QWidget" name="widget" native="true">
             <layout class="QGridLayout" name="gridLayout">
              <item row="0" column="0">
-              <widget class="QLabel" name="label">
+              <widget class="QLabel" name="username_label">
                <property name="text">
                 <string>Username:</string>
                </property>
@@ -64,7 +64,7 @@
               <widget class="QLineEdit" name="username"/>
              </item>
              <item row="1" column="0">
-              <widget class="QLabel" name="label_2">
+              <widget class="QLabel" name="password_label">
                <property name="text">
                 <string>Password:</string>
                </property>
@@ -106,7 +106,7 @@
                 <item>
                  <widget class="QPushButton" name="login_btn">
                   <property name="text">
-                   <string>Login</string>
+                   <string/>
                   </property>
                  </widget>
                 </item>
@@ -198,14 +198,14 @@
               <widget class="QLineEdit" name="reg_password"/>
              </item>
              <item row="0" column="0">
-              <widget class="QLabel" name="label_3">
+              <widget class="QLabel" name="reg_username_label">
                <property name="text">
                 <string>Username:</string>
                </property>
               </widget>
              </item>
              <item row="2" column="0">
-              <widget class="QLabel" name="label_8">
+              <widget class="QLabel" name="phone_label">
                <property name="text">
                 <string>Phone:</string>
                </property>
@@ -230,7 +230,7 @@
                 <item>
                  <widget class="QPushButton" name="reg_btn">
                   <property name="text">
-                   <string>Register</string>
+                   <string/>
                   </property>
                  </widget>
                 </item>
@@ -251,7 +251,7 @@
               </widget>
              </item>
              <item row="1" column="0">
-              <widget class="QLabel" name="label_4">
+              <widget class="QLabel" name="reg_password_label">
                <property name="text">
                 <string>Password:</string>
                </property>
@@ -350,7 +350,7 @@
                 <item>
                  <widget class="QPushButton" name="confirm_btn">
                   <property name="text">
-                   <string>Confirm</string>
+                   <string/>
                   </property>
                  </widget>
                 </item>
@@ -371,7 +371,7 @@
               </widget>
              </item>
              <item row="0" column="0">
-              <widget class="QLabel" name="label_5">
+              <widget class="QLabel" name="ip_label">
                <property name="text">
                 <string>IP:</string>
                </property>
@@ -381,7 +381,7 @@
               <widget class="QLineEdit" name="port"/>
              </item>
              <item row="1" column="0">
-              <widget class="QLabel" name="label_6">
+              <widget class="QLabel" name="port_label">
                <property name="text">
                 <string>Port:</string>
                </property>
@@ -432,7 +432,7 @@
       <item>
        <widget class="QPushButton" name="home_btn">
         <property name="text">
-         <string>Home</string>
+         <string/>
         </property>
        </widget>
       </item>
@@ -452,7 +452,7 @@
       <item>
        <widget class="QPushButton" name="net_config_btn">
         <property name="text">
-         <string>Net Config</string>
+         <string/>
         </property>
        </widget>
       </item>

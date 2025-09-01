@@ -255,5 +255,60 @@
         <file>music/Woman_tuple13.mp3</file>
         <file>music/Woman_wangzha.mp3</file>
         <file>music/Woman_zhadan.mp3</file>
+        <file>images/addRoom-disable.png</file>
+        <file>images/addRoom-hover.png</file>
+        <file>images/addRoom-normal.png</file>
+        <file>images/addRoom-pressed.png</file>
+        <file>images/auto-join.png</file>
+        <file>images/auto-join1.png</file>
+        <file>images/auto-join2.png</file>
+        <file>images/createRoom-hover.png</file>
+        <file>images/createRoom-normal.png</file>
+        <file>images/createRoom-pressed.png</file>
+        <file>images/go_home.png</file>
+        <file>images/go_home1.png</file>
+        <file>images/go_home2.png</file>
+        <file>images/info1.png</file>
+        <file>images/info2.png</file>
+        <file>images/join.png</file>
+        <file>images/join1.png</file>
+        <file>images/join2.png</file>
+        <file>images/login-bk.png</file>
+        <file>images/login-hover.png</file>
+        <file>images/login-normal.png</file>
+        <file>images/login-press.png</file>
+        <file>images/logo.icns</file>
+        <file>images/mode-bk.png</file>
+        <file>images/msgbox-bk.png</file>
+        <file>images/net-btn.png</file>
+        <file>images/net-btn1.png</file>
+        <file>images/net-btn2.png</file>
+        <file>images/net-mode.png</file>
+        <file>images/ok.png</file>
+        <file>images/ok1.png</file>
+        <file>images/ok2.png</file>
+        <file>images/quxiao-hover.png</file>
+        <file>images/quxiao-normal.png</file>
+        <file>images/quxiao-press.png</file>
+        <file>images/reg-hover.png</file>
+        <file>images/reg-normal.png</file>
+        <file>images/reg-press.png</file>
+        <file>images/search.png</file>
+        <file>images/search1.png</file>
+        <file>images/search2.png</file>
+        <file>images/searchRoom-hover.png</file>
+        <file>images/searchRoom-normal.png</file>
+        <file>images/searchRoom-pressed.png</file>
+        <file>images/searchroom.png</file>
+        <file>images/shoudongchuangjian.png</file>
+        <file>images/single-btn.png</file>
+        <file>images/single-btn1.png</file>
+        <file>images/single-btn2.png</file>
+        <file>images/single-mode.png</file>
+        <file>images/www_dial.png</file>
+        <file>images/www_dial1.png</file>
+        <file>images/www_dial2.png</file>
+        <file>images/zidongchuangjian.png</file>
+        <file>conf/style.qss</file>
     </qresource>
 </RCC>

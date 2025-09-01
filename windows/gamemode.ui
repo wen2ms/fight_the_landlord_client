@@ -17,7 +17,7 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="mode_page">
       <layout class="QHBoxLayout" name="horizontalLayout">
@@ -40,14 +40,14 @@
           <item>
            <widget class="QLabel" name="standalone_label">
             <property name="text">
-             <string>TextLabel</string>
+             <string/>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="standalone_btn">
             <property name="text">
-             <string>Standalone Mode</string>
+             <string/>
             </property>
            </widget>
           </item>
@@ -73,14 +73,14 @@
           <item>
            <widget class="QLabel" name="online_label">
             <property name="text">
-             <string>TextLabel</string>
+             <string/>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="online_btn">
             <property name="text">
-             <string>Online Mode</string>
+             <string/>
             </property>
            </widget>
           </item>
@@ -136,14 +136,14 @@
           <item>
            <widget class="QLabel" name="auto_create_label">
             <property name="text">
-             <string>TextLabel</string>
+             <string/>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="auto_create_room_btn">
             <property name="text">
-             <string>PushButton</string>
+             <string/>
             </property>
            </widget>
           </item>
@@ -193,16 +193,16 @@
            </spacer>
           </item>
           <item>
-           <widget class="QLabel" name="manual_create">
+           <widget class="QLabel" name="manual_create_label">
             <property name="text">
-             <string>TextLabel</string>
+             <string/>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="manual_create_room_btn">
             <property name="text">
-             <string>PushButton</string>
+             <string/>
             </property>
            </widget>
           </item>
@@ -254,14 +254,14 @@
           <item>
            <widget class="QLabel" name="search_room_label">
             <property name="text">
-             <string>TextLabel</string>
+             <string/>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="search_room_btn">
             <property name="text">
-             <string>PushButton</string>
+             <string/>
             </property>
            </widget>
           </item>

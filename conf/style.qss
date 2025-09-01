@@ -1,0 +1,219 @@
+Login {
+    border-image: url(:/images/login-bk.png);
+}
+
+GameMode {
+    border-image: url(:/images/mode-bk.png);
+}
+
+JoinRoom {
+    border-image: url(:/images/msgbox-bk.png);
+}
+
+QPushButton#login_btn {
+    border-image: url(:/images/login-normal.png);
+    min-width: 100px;
+    min-height: 50px;
+}
+
+QPushButton#login_btn:hover{
+    border-image: url(:/images/login-hover.png);
+}
+
+QPushButton#login_btn:pressed {
+    border-image: url(:/images/login-press.png);
+}
+
+QPushButton#reg_btn {
+    border-image: url(:/images/reg-normal.png);
+    min-width: 100px;
+    min-height: 50px;
+}
+
+QPushButton#reg_btn:hover{
+    border-image: url(:/images/reg-hover.png);
+}
+
+QPushButton#reg_btn:pressed {
+    border-image: url(:/images/reg-press.png);
+}
+
+QPushButton#confirm_btn {
+    border-image: url(:/images/ok.png);
+    min-width: 100px;
+    min-height: 50px;
+}
+
+QPushButton#confirm_btn:hover{
+    border-image: url(:/images/ok1.png);
+}
+
+QPushButton#confirm_btn:pressed {
+    border-image: url(:/images/ok2.png);
+}
+
+QPushButton#home_btn {
+    border-image: url(:/images/go_home.png);
+    min-width: 50px;
+    min-height: 50px;
+}
+
+QPushButton#home_btn:hover{
+    border-image: url(:/images/go_home1.png);
+}
+
+QPushButton#home_btn:pressed {
+    border-image: url(:/images/go_home2.png);
+}
+
+QPushButton#net_config_btn {
+    border-image: url(:/images/www_dial.png);
+    min-width: 50px;
+    min-height: 50px;
+}
+
+QPushButton#net_config_btn:hover{
+    border-image: url(:/images/www_dial1.png);
+}
+
+QPushButton#net_config_btn:pressed {
+    border-image: url(:/images/www_dial2.png);
+}
+
+QPushButton#standalone_btn {
+    border-image: url(:/images/single-btn.png);
+    min-width: 220px;
+    min-height: 166px;
+}
+
+QPushButton#standalone_btn:hover{
+    border-image: url(:/images/single-btn1.png);
+}
+
+QPushButton#standalone_btn:pressed {
+    border-image: url(:/images/single-btn2.png);
+}
+
+QPushButton#online_btn {
+    border-image: url(:/images/net-btn.png);
+    min-width: 220px;
+    min-height: 166px;
+}
+
+QPushButton#online_btn:hover{
+    border-image: url(:/images/net-btn1.png);
+}
+
+QPushButton#online_btn:pressed {
+    border-image: url(:/images/net-btn2.png);
+}
+
+QPushButton#auto_create_room_btn {
+    border-image: url(:/images/auto-join.png);
+    min-width: 150px;
+    min-height: 150px;
+}
+
+QPushButton#auto_create_room_btn:hover{
+    border-image: url(:/images/auto-join1.png);
+}
+
+QPushButton#auto_create_room_btn:pressed {
+    border-image: url(:/images/auto-join2.png);
+}
+
+QPushButton#manual_create_room_btn {
+    border-image: url(:/images/join.png);
+    min-width: 150px;
+    min-height: 150px;
+}
+
+QPushButton#manual_create_room_btn:hover{
+    border-image: url(:/images/join1.png);
+}
+
+QPushButton#manual_create_room_btn:pressed {
+    border-image: url(:/images/join2.png);
+}
+
+QPushButton#search_room_btn {
+    border-image: url(:/images/search.png);
+    min-width: 150px;
+    min-height: 150px;
+}
+
+QPushButton#search_room_btn:hover{
+    border-image: url(:/images/search1.png);
+}
+
+QPushButton#search_room_btn:pressed {
+    border-image: url(:/images/search2.png);
+}
+
+QPushButton#create_room {
+    border-image: url(:/images/createRoom-normal.png);
+    min-width: 100px;
+    min-height: 45px;
+}
+
+QPushButton#create_room:hover{
+    border-image: url(:/images/createRoom-hover.png);
+}
+
+QPushButton#create_room:pressed {
+    border-image: url(:/images/createRoom-pressed.png);
+}
+
+QPushButton#search_room {
+    border-image: url(:/images/searchRoom-normal.png);
+    min-width: 100px;
+    min-height: 45px;
+}
+
+QPushButton#search_room:hover{
+    border-image: url(:/images/searchRoom-hover.png);
+}
+
+QPushButton#search_room:pressed {
+    border-image: url(:/images/searchRoom-pressed.png);
+}
+
+QLabel#username_label, #password_label, #reg_username_label, #reg_password_label, #phone_label, #ip_label, #port_label {
+    font-size: 14pt;
+    color: black;
+}
+
+QCheckBox#save_password {
+    font-size: 14pt;
+    color: black;
+}
+
+QLable#standalone_label {
+    border-image: url(:/images/single-mode.png);
+    min-width: 160px;
+    min-height: 50px;
+}
+
+QLable#online_label {
+    border-image: url(:/images/net-mode.png);
+    min-width: 160px;
+    min-height: 50px;
+}
+
+QLable#auto_create_label {
+    border-image: url(:/images/zidongchuangjian.png);
+    min-width: 160px;
+    min-height: 50px;
+}
+
+QLable#manual_create_label {
+    border-image: url(:/images/shoudongchuangjain.png);
+    min-width: 160px;
+    min-height: 50px;
+}
+
+QLable#search_room_label {
+    border-image: url(:/images/searchroom.png);
+    min-width: 160px;
+    min-height: 50px;
+}
