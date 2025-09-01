@@ -912,8 +912,16 @@ void MainWindow::mouseMoveEvent(QMouseEvent* event) {
     }
 }
 
-void MainWindow::closeEvent(QCloseEvent* event) {
+void MainWindow::closeEvent(QCloseEvent* event) {    
     emit window_close();
+    
+    if (DataManager::get_instance()->game_mode_type() == DataManager::kOnline) {
+        Message message;
+        message.reqcode = LEAVE_ROOM;
+        message.user_name = DataManager::get_instance()->user_name();
+        message.room_name = DataManager::get_instance()->room_name();
+        DataManager::get_instance()->communication()->send_message(&message);
+    }
     
     event->accept();
     

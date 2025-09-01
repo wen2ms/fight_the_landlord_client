@@ -18,6 +18,8 @@ class GameMode : public QDialog {
     void closeEvent(QCloseEvent* event) override;
 
   private:
+    void show_info(const int count);
+    
     Ui::GameMode *ui;
 };
 

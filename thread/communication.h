@@ -47,6 +47,7 @@ class Communication : public QObject, public QRunnable {
     void player_count(int number);
     void start_game(QByteArray msg);
     void room_exists(bool success);
+    void other_leave_room(int count);
     
   private:
     TcpSocket* socket_;

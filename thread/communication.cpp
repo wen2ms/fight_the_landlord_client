@@ -102,6 +102,11 @@ void Communication::parse_recv_message() {
             emit room_exists(success);
             break;
         }
+        case OTHER_LEAVE_ROOM:{
+            int count = ptr->data1.toInt();
+            emit other_leave_room(count);
+            break;
+        }
         case FAILED:
             emit failed_msg(ptr->data1);
             break;

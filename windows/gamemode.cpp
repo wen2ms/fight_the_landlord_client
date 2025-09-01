@@ -17,12 +17,11 @@ GameMode::GameMode(QWidget *parent) : QDialog(parent), ui(new Ui::GameMode) {
     Communication* communication = DataManager::get_instance()->communication();
     
     connect(communication, &Communication::player_count, this, [=](int count) {
-        QString tip = QString("There are <%1> players in the current <%2> room, waiting for other players to enter")
-                          .arg(count)
-                          .arg(DataManager::get_instance()->room_name());
-        ui->information->setText(tip);
+        show_info(count);
         ui->information->setVisible(true);
     });
+    
+    connect(communication, &Communication::other_leave_room, this, &GameMode::show_info);
     
     connect(communication, &Communication::start_game, this, [=](QByteArray msg) {
         this->hide();
@@ -79,6 +78,13 @@ GameMode::GameMode(QWidget *parent) : QDialog(parent), ui(new Ui::GameMode) {
 
 GameMode::~GameMode() {
     delete ui;
+}
+
+void GameMode::show_info(const int count) {
+    QString tip = QString("There are <%1> players in the current <%2> room, waiting for other players to enter")
+    .arg(count)
+        .arg(DataManager::get_instance()->room_name());
+    ui->information->setText(tip);
 }
 
 void GameMode::closeEvent(QCloseEvent *event) {
