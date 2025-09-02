@@ -188,31 +188,31 @@ QCheckBox#save_password {
     color: black;
 }
 
-QLable#standalone_label {
+QLabel#standalone_label {
     border-image: url(:/images/single-mode.png);
     min-width: 160px;
     min-height: 50px;
 }
 
-QLable#online_label {
+QLabel#online_label {
     border-image: url(:/images/net-mode.png);
     min-width: 160px;
     min-height: 50px;
 }
 
-QLable#auto_create_label {
+QLabel#auto_create_label {
     border-image: url(:/images/zidongchuangjian.png);
     min-width: 160px;
     min-height: 50px;
 }
 
-QLable#manual_create_label {
-    border-image: url(:/images/shoudongchuangjain.png);
+QLabel#manual_create_label {
+    border-image: url(:/images/shoudongchuangjian.png);
     min-width: 160px;
     min-height: 50px;
 }
 
-QLable#search_room_label {
+QLabel#search_room_label {
     border-image: url(:/images/searchroom.png);
     min-width: 160px;
     min-height: 50px;

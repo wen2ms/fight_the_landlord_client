@@ -64,7 +64,7 @@ Login::Login(QWidget* parent)
     // ui->username->setText("FooBar");
     // ui->password->setText("Aa*1");
     
-    ui->reg_username->setText("FooBar");
+    ui->reg_username->setText("Foo");
     ui->reg_password->setText("Aa*1");
     ui->phone->setText("13832123211");
     
