@@ -41,6 +41,7 @@ void JoinRoom::search_room() {
 void JoinRoom::join_room() {
     encode_message(RequestCode::MANUAL_CREATE_ROOM);
     DataManager::get_instance()->set_room_mode(DataManager::kManual);
+    accept();
 }
 
 void JoinRoom::encode_message(RequestCode reqcode) {

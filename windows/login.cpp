@@ -61,8 +61,8 @@ Login::Login(QWidget* parent)
     
     QThreadPool::globalInstance()->setMaxThreadCount(8);
     
-    // ui->username->setText("FooBar");
-    // ui->password->setText("Aa*1");
+    ui->username->setText("Foo");
+    ui->password->setText("Aa*1");
     
     ui->reg_username->setText("Foo");
     ui->reg_password->setText("Aa*1");

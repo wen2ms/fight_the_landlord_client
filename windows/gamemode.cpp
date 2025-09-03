@@ -85,6 +85,7 @@ void GameMode::show_info(const int count) {
     .arg(count)
         .arg(DataManager::get_instance()->room_name());
     ui->information->setText(tip);
+    ui->information->setStyleSheet("color: black;");
 }
 
 void GameMode::closeEvent(QCloseEvent *event) {
@@ -94,14 +95,12 @@ void GameMode::closeEvent(QCloseEvent *event) {
         event->ignore();
     } else {
         event->accept();
-        
-        if (DataManager::get_instance()->game_mode_type() == DataManager::kOnline) {
-            Message message;
-            message.reqcode = EXIT;
-            message.user_name = DataManager::get_instance()->user_name();
-            message.room_name = DataManager::get_instance()->room_name();
-            DataManager::get_instance()->communication()->send_message(&message);
-            DataManager::get_instance()->communication()->stop_loop();
-        } 
+
+        Message message;
+        message.reqcode = EXIT;
+        message.user_name = DataManager::get_instance()->user_name();
+        message.room_name = DataManager::get_instance()->room_name();
+        DataManager::get_instance()->communication()->send_message(&message);
+        DataManager::get_instance()->communication()->stop_loop();
     }
 }
